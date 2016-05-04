@@ -26,8 +26,9 @@ public class OrderedList<T> implements OrderedListADT<T>{
 				high = mid -1;
 			}
 
-			if(high == low && ){
-
+			if(high == low){
+				add(item,mid);
+				placed = true;
 			} 
 
 		}
