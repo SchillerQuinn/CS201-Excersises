@@ -1,4 +1,5 @@
 import java.util.EmptyStackException;
+import java.util.*;
 
 /*
 *TODO
@@ -11,29 +12,31 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 	
 	private T[] data = (T[]) new Object[1];
 	private int length;
+	private Comparator<T> check; //create an instance of the comparator
+
+	public OrderedAList(Comparator<T> input){
+		check = input;
+	}
 
 	public void add(T item){
-		if (this.length == 0){ //you can't search an empty list
-			throw new EmptyStackException();
-		}
-		StringComparator check = new Comparator<String>(); //create an instance of the comparator
+		
 		int lo = 0;
 		int hi = this.length - 1; //correct for off by one error
 		boolean found = false;
-		int mid;
+		int mid = (hi + lo) / 2;
 		while (lo <= hi && !found) { //find the place to insert the new item
 			mid = (hi + lo) / 2; // update midpint
-			if (check.compareTo(item, data[mid])<0) {
+			if (check.compare(item, data[mid])<0) {
 				hi = mid - 1; //if it was too high, update the hi point of the search
 			}
-			else if (check.compareTo(item, data[mid])>0) {
+			else if (check.compare(item, data[mid])>0) {
 				lo = mid + 1; //if it was too low, update the lowpoint of the search
 			}
 			else {
 				found = true; //exit the loop
 			}
 		}
-		if (check.compareTo(data[mid],item)>0){ //if this midpoint is larger than the item 
+		if (check.compare(data[mid],item)>0){ //if this midpoint is larger than the item 
 			mid --;
 		}
 		//start filling holder array
@@ -71,15 +74,14 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 		if (this.length == 0){ //you can't search an empty list
 			throw new EmptyStackException();
 		}
-		StringComparator check = new Comparator<String>(); //create an instance of the comparator
 		int lo = 0;
 		int hi = this.length - 1; //correct for off by one error
 		while (lo <= hi) { //loop until the whole array has been searched
 			int mid = (hi + lo) / 2; // update midpint
-			if (check.compareTo(item, data[mid])<0) {
+			if (check.compare(item, data[mid])<0) {
 				hi = mid - 1; //if it was too high, update the hi point of the search
 			}
-			else if (check.compareTo(item, data[mid])>0) {
+			else if (check.compare(item, data[mid])>0) {
 				lo = mid + 1; //if it was too low, update the lowpoint of the search
 			}
 			else {
@@ -122,18 +124,17 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 		if (!this.contains(item)){
 			return null; //you can't remove an item that doens't exist
 		}
-		StringComparator check = new Comparator<String>(); //create an instance of the comparator
 		int lo = 0;
 		int hi = this.length - 1; //correct for off by one error
 		boolean found = false;
-		int mid;
-		T holder;
+		int mid = (hi + lo) / 2;
+		T holder = null;
 		while (!found) { //search until it finds the item
 			mid = (hi + lo) / 2; // update midpint
-			if (check.compareTo(item, data[mid])<0) {
+			if (check.compare(item, data[mid])<0) {
 				hi = mid - 1; //if it was too high, update the hi point of the search
 			}
-			else if (check.compareTo(item, data[mid])>0) {
+			else if (check.compare(item, data[mid])>0) {
 				lo = mid + 1; //if it was too low, update the lowpoint of the search
 			}
 			else {
