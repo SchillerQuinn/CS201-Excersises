@@ -13,24 +13,27 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 	
 	private T[] data = (T[]) new Object[1];
 	private int length = 0;
-	private Comparator<T> check; //create an instance of the comparator
+	private Comparator check; //create an instance of the comparator
 
-	public OrderedAList(Comparator<T> input){
-		check = input;
-	}
+	//public OrderedAList(Comparator<T> input){
+		//check = input;
+	//}
 
 	public void add(T item){
-		
+
+		if (this.length == 0){	//you can't search an empty list
+			throw new EmptyStackException();
+		}
 		int lo = 0;
-		int hi = this.length - 1; //correct for off by one error
+		int hi = this.length - 1;	//correct for off-by-one error
 		boolean found = false;
 		int mid = (hi + lo) / 2;
 		while (lo <= hi && !found) { //find the place to insert the new item
 			mid = (hi + lo) / 2; // update midpint
-			if (check.compare(item, data[mid])<0) {
+			if (check.compare(item, data[mid])>0) {
 				hi = mid - 1; //if it was too high, update the hi point of the search
 			}
-			else if (check.compare(item, data[mid])>0) {
+			else if (check.compare(item, data[mid])<0) {
 				lo = mid + 1; //if it was too low, update the lowpoint of the search
 			}
 			else {
@@ -62,7 +65,7 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 	* @return the item at that index
 	*******************/
 	public T get(int index){
-		if (this.length >= index){ //only return valid items
+		if (this.length >= index){	//only return valid items
 			return this.data[index];
 		}
 		else{
@@ -82,10 +85,10 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 		int hi = this.length - 1; //correct for off by one error
 		while (lo <= hi) { //loop until the whole array has been searched
 			int mid = (hi + lo) / 2; // update midpint
-			if (check.compare(item, data[mid])<0) {
+			if (check.compare(item, data[mid])>0) {
 				hi = mid - 1; //if it was too high, update the hi point of the search
 			}
-			else if (check.compare(item, data[mid])>0) {
+			else if (check.compare(item, data[mid])<0) {
 				lo = mid + 1; //if it was too low, update the lowpoint of the search
 			}
 			else {
@@ -135,10 +138,10 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 		T holder = null;
 		while (!found) { //search until it finds the item
 			mid = (hi + lo) / 2; // update midpint
-			if (check.compare(item, data[mid])<0) {
+			if (check.compare(item, data[mid])>0) {
 				hi = mid - 1; //if it was too high, update the hi point of the search
 			}
-			else if (check.compare(item, data[mid])>0) {
+			else if (check.compare(item, data[mid])<0) {
 				lo = mid + 1; //if it was too low, update the lowpoint of the search
 			}
 			else {
