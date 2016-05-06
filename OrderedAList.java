@@ -15,48 +15,37 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 	private int length = 0;
 	private Comparator check; //create an instance of the comparator
 
-	//public OrderedAList(Comparator<T> input){
-		//check = input;
-	//}
+	public OrderedAList(Comparator<T> input){
+		check = input;
+	}
 
 	public void add(T item){
-
-		if (this.length == 0){	//you can't search an empty list
-			throw new EmptyStackException();
+		System.out.println(item);
+		System.out.print(" ");
+		if (this.length ==0){
+			this.data[0]=item;
 		}
-		int lo = 0;
-		int hi = this.length - 1;	//correct for off-by-one error
-		boolean found = false;
-		int mid = (hi + lo) / 2;
-		while (lo <= hi && !found) { //find the place to insert the new item
-			mid = (hi + lo) / 2; // update midpint
-			if (check.compare(item, data[mid])>0) {
-				hi = mid - 1; //if it was too high, update the hi point of the search
+		else{
+			T[] foo = (T[]) new Object[this.length+1]; //create holder array
+			boolean placed = false;
+			for (int i = 0; i<this.length; i++){ //fill the first half before the insterted item
+				if (!placed){
+					if (i <= this.length || check.compare(item, data[i])<0 ){ //before the index where the item is added, just put it in where it should go
+						System.out.print(this.data[i]);
+						foo[i] = this.data[i];
+					}
+					else{ //the first time it reaches something bigger than it, put the item in before the larger item
+						foo[i] = item;
+						placed = true;
+					}
+				}
+				else{ //then copy the rest of the data
+					foo[i] = this.data[i-1];
+				}
 			}
-			else if (check.compare(item, data[mid])<0) {
-				lo = mid + 1; //if it was too low, update the lowpoint of the search
-			}
-			else {
-				found = true; //exit the loop
-			}
+			this.data = foo;	//copy the holder onto the data
 		}
-		if (length > 0 && check.compare(data[mid],item)>0){ //first checks to see if there are data in the array, then if this midpoint is larger than the item 
-			mid --;
-		}
-		//start filling holder array
-		T[] foo = (T[]) new Object[this.length+1];
-		for (int i = 0; i < mid; i++){ //fill the first half before the insterted item
-			foo[i] = this.data[i];
-		}
-		if(mid<0){
-			mid=0;
-		}
-		foo[mid] = item; //insert the new item into array  ********
-		for (int i = mid; i < this.length; i++){ //copy the second half of the list
-			foo[i+1] = this.data[i];
-		}
-		this.length ++;	//update size of list
-		this.data = foo;	//copy the holder onto the data
+		this.length++;
 	}
 
 
@@ -79,7 +68,7 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 	**********/
 	public boolean contains(T item){
 		if (this.length == 0){ //you can't search an empty list
-			throw new EmptyStackException();
+			throw new IndexOutOfBoundsException();
 		}
 		int lo = 0;
 		int hi = this.length - 1; //correct for off by one error
@@ -126,39 +115,29 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 	*************************/
 	public T remove(T item){
 		if (this.length == 0){ //you can't search an empty list
-			throw new EmptyStackException();
+			throw new IndexOutOfBoundsException();
 		}
 		if (!this.contains(item)){
-			return null; //you can't remove an item that doens't exist
+			throw new NoSuchElementException(); //you can't remove an item that doens't exist
 		}
-		int lo = 0;
-		int hi = this.length - 1; //correct for off by one error
-		boolean found = false;
-		int mid = (hi + lo) / 2;
-		T holder = null;
-		while (!found) { //search until it finds the item
-			mid = (hi + lo) / 2; // update midpint
-			if (check.compare(item, data[mid])>0) {
-				hi = mid - 1; //if it was too high, update the hi point of the search
-			}
-			else if (check.compare(item, data[mid])<0) {
-				lo = mid + 1; //if it was too low, update the lowpoint of the search
-			}
-			else {
-				holder = this.data[mid]; //hold the item we will return
-				found = true; //exit the loop
-			}
-		}
-		//create holder array
+		T holder = null;	//initialize holder in this scope
+		boolean placed = false;
 		T[] foo = (T[]) new Object[this.length-1];
-		for(int i = 0; i < mid; i++){//copy the first half
-			foo[i] = this.data[i];
-		}
-		for (int i = mid+1; i < this.length; i++){ //copy the second half of the list skipping the index of the removed item
-			foo[i-1] = this.data[i];
+		for (int i = 0; i<this.length; i++){ //fill the first half before the insterted item
+			if (check.compare(item, data[i])<0){ //before the index where the item is added, just put it in where it should go
+				foo[i] = this.data[i];
+			}
+			else if(!placed){ //the first time it reaches something bigger than it, don't copy the item
+				placed = true;
+				holder = this.data[i]; //store the value to return
+			}
+			else{ //then copy the rest of the data
+				foo[i-1] = this.data[i];
+			}
 		}
 		this.data = foo;//copy the holder array to the data array
 		this.length --;	//update length of list
+		
 		//return the removed value
 		return holder;
 	}
