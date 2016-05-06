@@ -153,70 +153,84 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 		Testing the add, contains, get, remove method
 		Should print unless commented out:
 		
-		//EmptyStackException
-		//EmptyStackException
+		//IndexOutOfBoundsException
+		//IndexOutOfBoundsException
+		//IndexOutOfBoundsException
+		-1
 		5
+		Andrew
+		Andy
+		Quinn
+		dog
+		house
+		Andrew
+		Quinn
+		house
+		//IndexOutOfBoundsException
+		//NoSuchElementException
+		false
+		false
+		false
+		false
 		true
-		false
-		a
-		b
-		c
-		d
-		e
-		//IndexOutOfBException
-		a
-		null
-		4
-		false
-		false
-		b
-		c
+		true
+		2
+		Andy
+		dog
 		0
 		true
 
 		**********************************/
-			//test.remove("meme");
-			//test.contains("meme");
-	  //System.out.println(sComp.compare("a","b"));
-		test.add("Andy Excley");
+		
+
+		//Testing properties of List when it has no elements
+		//test.remove("meme");
+		//test.contains("meme");
+		//test.get(1);
+		System.out.println(test.isEmpty());
+
+		//Testing comparator
+	    System.out.println(sComp.compare("a","b"));
+
+	    //Testing add and size method
+		test.add("Andy");
 		test.add("dog");
 		test.add("house");
 		test.add("Quinn");
 		test.add("Andrew");
-		//System.out.println(test.size());
+		System.out.println(test.size());
 
-		//System.out.println(test.contains("a"));
-		//System.out.println(test.contains("b"));
-		//System.out.println(test.contains("foo")); 
-		
+		//Testing get methos
 		System.out.println(test.get(0)); 
 		System.out.println(test.get(1)); 
 		System.out.println(test.get(2)); 
 		System.out.println(test.get(3)); 
 		System.out.println(test.get(4)); 
 		//System.out.println(test.get(10)); 
-
-		System.out.println("power");
-		System.out.println(test.get(0)); 
-		System.out.println(test.get(1)); 
-		System.out.println(test.get(2)); 
-		System.out.println(test.get(3)); 
-		//System.out.println(test.get(4)); 
+		
+		//Testing remove method
+		System.out.println(test.remove("Andrew"));
+		System.out.println(test.remove("Quinn"));
+		System.out.println(test.remove("house"));
 		//System.out.println(test.remove("foo"));
-		//System.out.println(test.size());
-		//System.out.println(test.contains("foo"));
+
+		//Testing contains method
+		System.out.println(test.contains("foo"));
 		System.out.println(test.contains("Andrew")); 
 		System.out.println(test.contains("dat boi")); 
 		System.out.println(test.contains("Quinn")); 
-		System.out.println(test.contains("house")); 
+		System.out.println(test.contains("Andy")); 
+		System.out.println(test.contains("dog")); 
+		System.out.println(test.size());
 
-		//System.out.println(test.get(0));
-		//System.out.println(test.get(1));
+		//Testing get method after removals
+		System.out.println(test.get(0));
+		System.out.println(test.get(1));
 
-		//test.clear();
-
-		//System.out.println(test.size());
-		//System.out.println(test.isEmpty());
+		//Testing clear and isEmpty methods
+		test.clear();
+		System.out.println(test.size());
+		System.out.println(test.isEmpty());
 	  }
 
 }
