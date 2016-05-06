@@ -22,7 +22,7 @@ public class SpellCheck2{
 		}
 		long endTime = System.currentTimeMillis();	
 		long elTime = endTime-startTime;//find difference in start and end times
-		System.out.println("Loaded in "+ elTime + "miliseconds");	//say how long it took
+		System.out.println("Loaded in "+ elTime + " miliseconds");	//say how long it took
 
 		System.out.println("Loading wordlist into sorted list..."); //verbose output because this takes longer than the average opperation
 		startTime = System.currentTimeMillis();
@@ -52,7 +52,7 @@ public class SpellCheck2{
 			else{ //check the word list for user entered word and give the correct output
 				startTime = System.nanoTime();
 				if(wordList1.contains(userInput)){ //check unordered list
-					endTime = ystem.nanoTime();
+					endTime = System.nanoTime();
 					elTime = endTime-startTime;//find difference in start and end times
 					System.out.print(userInput + " is spelled correctly ");	
 					System.out.println("(Took "+ elTime + " nanoseconds for unordered search)");	
