@@ -1,5 +1,6 @@
 import java.util.EmptyStackException;
 import java.util.*;
+import java.lang.IndexOutOfBoundsException;
 
 /*
 *TODO
@@ -11,7 +12,7 @@ import java.util.*;
 public class OrderedAList<T> implements OrderedListADT<T>{
 	
 	private T[] data = (T[]) new Object[1];
-	private int length;
+	private int length = 0;
 	private Comparator<T> check; //create an instance of the comparator
 
 	public OrderedAList(Comparator<T> input){
@@ -36,7 +37,7 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 				found = true; //exit the loop
 			}
 		}
-		if (check.compare(data[mid],item)>0){ //if this midpoint is larger than the item 
+		if (length > 0 && check.compare(data[mid],item)>0){ //first checks to see if there are data in the array, then if this midpoint is larger than the item 
 			mid --;
 		}
 		//start filling holder array
@@ -44,7 +45,10 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 		for (int i = 0; i < mid; i++){ //fill the first half before the insterted item
 			foo[i] = this.data[i];
 		}
-		foo[mid] = item; //insert the new item into aray
+		if(mid<0){
+			mid=0;
+		}
+		foo[mid] = item; //insert the new item into array  ********
 		for (int i = mid; i < this.length; i++){ //copy the second half of the list
 			foo[i+1] = this.data[i];
 		}
@@ -62,7 +66,7 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 			return this.data[index];
 		}
 		else{
-			return null;
+			throw new IndexOutOfBoundsException();
 		}
 	}
 
