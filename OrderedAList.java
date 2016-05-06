@@ -11,41 +11,35 @@ import java.lang.IndexOutOfBoundsException;
 
 public class OrderedAList<T> implements OrderedListADT<T>{
 	
-	private T[] data = (T[]) new Object[1];
-	private int length = 0;
-	private Comparator check; //create an instance of the comparator
+	private T[] data = (T[]) new Object[10];//creates and initial array of size 10
+	private int length = 0; //initializes the number of units in the array to be 0
+	private Comparator<T> check; //create an instance of the comparator
 
 	public OrderedAList(Comparator<T> input){
-		check = input;
+		check = input; //takes a Comparator to use throughout the meme
 	}
 
 	public void add(T item){
-		System.out.println(item);
-		System.out.print(" ");
-		if (this.length ==0){
-			this.data[0]=item;
-		}
-		else{
-			T[] foo = (T[]) new Object[this.length+1]; //create holder array
-			boolean placed = false;
-			for (int i = 0; i<this.length; i++){ //fill the first half before the insterted item
-				if (!placed){
-					if (i <= this.length || check.compare(item, data[i])<0 ){ //before the index where the item is added, just put it in where it should go
-						System.out.print(this.data[i]);
-						foo[i] = this.data[i];
-					}
-					else{ //the first time it reaches something bigger than it, put the item in before the larger item
-						foo[i] = item;
-						placed = true;
-					}
-				}
-				else{ //then copy the rest of the data
-					foo[i] = this.data[i-1];
-				}
-			}
-			this.data = foo;	//copy the holder onto the data
-		}
-		this.length++;
+		//when the array cannot take on another value, we double the size
+		if(this.length == data.length){
+            T[] foo = (T[]) new Object[2*data.length];
+            for(int i = 0; i < this.length; i++){
+                foo[i] = data[i];
+            }
+            data = foo;
+        }
+
+        int insertIndex = 0; 
+        while(insertIndex < this.length && check.compare(item, data[insertIndex]) > 0){
+            insertIndex++;
+        }
+
+        for(int i = this.length; i > insertIndex ; i--){ //slides all the entries down that are after insertIndex
+        	data[i] = data[i-1];
+        }
+
+        data[insertIndex] = item; //after we opened up a slot at insertIndex by sliding everythin past it down, we now place item into that spot
+        this.length++; //we increase the length by 1 to reflect the fact that we added a new item 
 	}
 
 
@@ -54,7 +48,7 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 	* @return the item at that index
 	*******************/
 	public T get(int index){
-		if (this.length >= index){	//only return valid items
+		if (this.length > index && 0 <= index){	//only return valid items between length and 
 			return this.data[index];
 		}
 		else{
@@ -72,19 +66,26 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 		}
 		int lo = 0;
 		int hi = this.length - 1; //correct for off by one error
+		int mid = 0;
 		while (lo <= hi) { //loop until the whole array has been searched
-			int mid = (hi + lo) / 2; // update midpint
-			if (check.compare(item, data[mid])>0) {
-				hi = mid - 1; //if it was too high, update the hi point of the search
+			mid = (hi + lo) / 2; // update midpint
+			if (check.compare(item, data[mid])==0) {
+				return true; //if it is right just exit the loop
+			}
+			else if (check.compare(item, data[mid])>0) {
+				lo = mid +1; //if it was too low, update the lo point of the search
 			}
 			else if (check.compare(item, data[mid])<0) {
-				lo = mid + 1; //if it was too low, update the lowpoint of the search
-			}
-			else {
-				return true; //exit the loop
+				hi = mid -1; //if it was too high, update the hi point of the search
 			}
 		}
-		return false;
+		//System.out.println("yo " + data[mid]);
+		//System.out.println(mid);
+		//if(check.compare(item, data[lo]) == 0 || check.compare(item, data[hi]) == 0){// checks to see if the item is at the final hi or lo
+		//	return true;
+		//}
+
+		return false; //if we couldn't find it, return false
 
 	}
 
@@ -93,10 +94,10 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 	* @return Whether the list is empty
 	********************/
 	public boolean isEmpty(){
-		if (this.length == 0){ //if the size is 0 it is empty
+		if (this.length == 0){ //if the size is 0, it will return true
 			return true;
 		}
-		else {
+		else { //otherwise return false
 			return false;
 		}
 	}
@@ -106,7 +107,7 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 	* @return The number of items
 	*********************/
 	public int size(){
-		return this.length;
+		return this.length; //returns number of items in the array
 	}
 
 	/***********************
@@ -122,31 +123,100 @@ public class OrderedAList<T> implements OrderedListADT<T>{
 		}
 		T holder = null;	//initialize holder in this scope
 		boolean placed = false;
-		T[] foo = (T[]) new Object[this.length-1];
+		T[] foo = (T[]) new Object[this.length];
+		int fooInd = 0;
 		for (int i = 0; i<this.length; i++){ //fill the first half before the insterted item
-			if (check.compare(item, data[i])<0){ //before the index where the item is added, just put it in where it should go
-				foo[i] = this.data[i];
-			}
-			else if(!placed){ //the first time it reaches something bigger than it, don't copy the item
-				placed = true;
-				holder = this.data[i]; //store the value to return
-			}
-			else{ //then copy the rest of the data
-				foo[i-1] = this.data[i];
+			if (check.compare(item, data[i])!=0){ //before the index where the item is added, just put it in where it should go
+				foo[fooInd] = this.data[i];
+				fooInd++;
 			}
 		}
 		this.data = foo;//copy the holder array to the data array
-		this.length --;	//update length of list
+		this.length--;	//update length of list
 		
 		//return the removed value
-		return holder;
+		return item;
 	}
 
 	/**********************
 	* Clear the list
 	******************/
 	public void clear(){
-		this.length = 0;
+		this.length = 0; //reduces count to zero
+		this.data = (T[]) new Object[10]; //resets the array
 	}
+
+	public static void main(String[] args){
+		StringComparator sComp = new StringComparator();
+		OrderedAList<String> test = new OrderedAList<String>(sComp);
+		/*******************************
+		Testing the add, contains, get, remove method
+		Should print unless commented out:
+		
+		//EmptyStackException
+		//EmptyStackException
+		5
+		true
+		false
+		a
+		b
+		c
+		d
+		e
+		//IndexOutOfBException
+		a
+		null
+		4
+		false
+		false
+		b
+		c
+		0
+		true
+
+		**********************************/
+			//test.remove("meme");
+			//test.contains("meme");
+	  //System.out.println(sComp.compare("a","b"));
+		test.add("Andy Excley");
+		test.add("dog");
+		test.add("house");
+		test.add("Quinn");
+		test.add("Andrew");
+		//System.out.println(test.size());
+
+		//System.out.println(test.contains("a"));
+		//System.out.println(test.contains("b"));
+		//System.out.println(test.contains("foo")); 
+		
+		System.out.println(test.get(0)); 
+		System.out.println(test.get(1)); 
+		System.out.println(test.get(2)); 
+		System.out.println(test.get(3)); 
+		System.out.println(test.get(4)); 
+		//System.out.println(test.get(10)); 
+
+		System.out.println("power");
+		System.out.println(test.get(0)); 
+		System.out.println(test.get(1)); 
+		System.out.println(test.get(2)); 
+		System.out.println(test.get(3)); 
+		//System.out.println(test.get(4)); 
+		//System.out.println(test.remove("foo"));
+		//System.out.println(test.size());
+		//System.out.println(test.contains("foo"));
+		System.out.println(test.contains("Andrew")); 
+		System.out.println(test.contains("dat boi")); 
+		System.out.println(test.contains("Quinn")); 
+		System.out.println(test.contains("house")); 
+
+		//System.out.println(test.get(0));
+		//System.out.println(test.get(1));
+
+		//test.clear();
+
+		//System.out.println(test.size());
+		//System.out.println(test.isEmpty());
+	  }
 
 }
