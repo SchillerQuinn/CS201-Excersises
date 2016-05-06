@@ -38,7 +38,7 @@ public class SpellCheck2{
 		}
 		endTime = System.currentTimeMillis();	//find difference in start and end times
 		elTime = endTime-startTime;//find difference in start and end times
-		System.out.println("Loaded in "+ elTime + "miliseconds"); //say how long it took
+		System.out.println("Loaded in "+ elTime + " miliseconds"); //say how long it took
 
 		Scanner userScan = new Scanner(System.in);	//start scanning for user input
 
@@ -50,32 +50,32 @@ public class SpellCheck2{
 				run = false;	//exit loop
 			}
 			else{ //check the word list for user entered word and give the correct output
-				startTime = System.currentTimeMillis();
+				startTime = System.nanoTime();
 				if(wordList1.contains(userInput)){ //check unordered list
-					endTime = System.currentTimeMillis();
+					endTime = ystem.nanoTime();
 					elTime = endTime-startTime;//find difference in start and end times
 					System.out.print(userInput + " is spelled correctly ");	
-					System.out.println("(Took "+ elTime + " miliseconds for unordered search)");	
+					System.out.println("(Took "+ elTime + " nanoseconds for unordered search)");	
 				}
 				else{
-					endTime = System.currentTimeMillis();
+					endTime = System.nanoTime();
 					elTime = endTime-startTime;//find difference in start and end times
 					System.out.print(userInput + " is not spelled correctly ");
-					System.out.println("(Took "+ elTime + " miliseconds for unordered search)");	
+					System.out.println("(Took "+ elTime + " nanoseconds for unordered search)");	
 				}
-				startTime = System.currentTimeMillis();
+				startTime = System.nanoTime();
 				
 				if(wordList2.contains(userInput)){ //check ordered list
-					endTime = System.currentTimeMillis();
+					endTime = System.nanoTime();
 					elTime = endTime-startTime;//find difference in start and end times
 					System.out.print(userInput + " is spelled correctly ");	
-					System.out.println("(Took "+ elTime + " miliseconds for ordered search)");	
+					System.out.println("(Took "+ elTime + " nanoseconds for ordered search)");	
 				}
 				else{
-					endTime = System.currentTimeMillis();
+					endTime = System.nanoTime();
 					elTime = endTime-startTime;//find difference in start and end times
 					System.out.print(userInput + " is not spelled correctly ");
-					System.out.println("(Took "+ elTime + " miliseconds for ordered search)");	
+					System.out.println("(Took "+ elTime + " nanoseconds for ordered search)");	
 				}
 			}
 		}
