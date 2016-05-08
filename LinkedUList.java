@@ -26,7 +26,7 @@ public class LinkedUList<T> implements UnorderedListADT<T>{
 	 * @return true if the item is in the list
 	 **********/
 	public boolean contains(T item){
-		for (Node<T> check = this.head.getNext(); check!=null; check =check.getNext()){ //loop through all of the array
+		for (Node<T> check = this.head.getNext(); check!=null; check = check.getNext()){ //loop through all of the array
 			if (check.getData().equals(item)){
 				return true; //if the checked index holds the item, return true.
 			}
