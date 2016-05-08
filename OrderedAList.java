@@ -1,12 +1,8 @@
+//Quinn Schiller and Andrew Maris
+
 import java.util.EmptyStackException;
 import java.util.*;
 import java.lang.IndexOutOfBoundsException;
-
-/*
-*TODO
-*Make main file for testing
-*String comparator is giving problems still
-*/
 
 
 public class OrderedAList<T> implements OrderedListADT<T>{

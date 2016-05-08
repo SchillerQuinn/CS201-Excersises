@@ -1,3 +1,5 @@
+//Quinn Schiller and Andrew Maris
+
 import java.io.*;
 import java.util.Scanner;
 
