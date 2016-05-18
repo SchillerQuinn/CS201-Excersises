@@ -1,5 +1,8 @@
+import java.util.*;
+import java.util.ArrayList; //use built-in list implimentation
+
 class BSTSet<T extends Comparable<T>> implements BSTInterface{
-	private BiNode head = new BiNode();
+	private BiNode head = new BiNode(null);
 	/*********
 	 * Checks whether the given item is in the BST
 	 * @param item The item to look for
@@ -58,12 +61,12 @@ class BSTSet<T extends Comparable<T>> implements BSTInterface{
 	 * Return an array that contains all the items in this BST in an in-order traversal
 	 * @return the array
 	 */
-	public ListADT<T> inOrderTraversal(){
+	public ArrayList<T> inOrderTraversal(){
 		ArrayList<T> traverse = new ArrayList<T>();
 		return this.listBuilder(head, traverse);
 	}
 
-	private ListADT<T> listBuilder(BiNode root, ListADT list){
+	private ArrayList<T> listBuilder(BiNode root, ArrayList<T> list){
 		if (root.getLeft()!= null){ //check the left side
 			list = listBuilder(root.getLeft(), list); //add the left side of the tree to the list
 		}

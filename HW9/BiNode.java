@@ -1,7 +1,8 @@
-class BiNode<T extends Comparable<T>> {
+class BiNode<T extends Comparable<T>>{
 	private T data;
 	private BiNode<T> left;
 	private BiNode<T> right;
+
 
 	public BiNode(T d){ //fast insert method for making a new node without setting roots
 		this( d , null, null ); //call full binary Node method
@@ -77,6 +78,6 @@ class BiNode<T extends Comparable<T>> {
 	}
 
 	public boolean remove(T item){
-		
+
 	}
 }

@@ -1,16 +1,13 @@
-import java.util.ArrayList //use built-in list implimentation
+import java.util.ArrayList; //use built-in list implimentation
 
-class SortedSet<T extends Comparable<T>> /*implements SortedSetADT*/{
+class SortedSet<T extends Comparable<T>> implements SortedSetADT{
 	
-	private BiNode head;
+	private BiNode head = new BiNode(null);
 	/*******
 		* Adds the given item to the set, ignoring duplicates
 		* @param item The item to add
-		*/
+	*/
 
-	public SortedSet(){
-		head = null;
-	}
 	public void add(T item){
 		head.add(item); //use Binode's add method
 	}
