@@ -1,20 +1,14 @@
+import java.util.ArrayList //use built-in list implimentation
+
 class SortedSet<T extends Comparable<T>> /*implements SortedSetADT*/{
 	
 	private BiNode head;
-	private int size = 0;
 	/*******
 		* Adds the given item to the set, ignoring duplicates
 		* @param item The item to add
 		*/
 	public void add(T item){
-		if (size == 0){ //if it is an empty tree, set the head
-			head = new BiNode(item, null, null);
-			size++;	//increase the size
-		}
-		else{
-			//do crazy shit
-		}
-
+		head.add(item); //use Binode's add method
 	}
 
 	 /*********
@@ -23,54 +17,21 @@ class SortedSet<T extends Comparable<T>> /*implements SortedSetADT*/{
 		* @return true if that item was removed, false otherwise
 		*/
 	public boolean remove(T item){
-		if (!this.contains(item)){
-			return false;
-		}
-		else{
-			//do weird recursive shit
-		}
+		return head.remove(item); //use BiNode remove method
 	}
 
-	private boolean recursiveRemove(T item, BiNode root){
-		if
-	}
-
-	private void shiftTree{
-		//fix trees8888
-	}
 	 /*********
 		* Checks whether the given item is in the set
 		* @param item The item to look for
 		* @return true if that item is in the set, false otherwise
 		*/
 	public boolean contains(T item){
-		if (head.getData().compareTo(item) == 0){
-			return true;
-		}
-		return containsHelper(item, head); //recursivly look for item
+		return head.contains(item);	//use BiNode contains method
 	}
-
-	private boolean containsHelper(T item, BiNode root){
-		if(root.getData().compareTo(item)==0){
-			return true;
-		}
-		boolean inLeft = false;
-		boolean inRight = false;
-		if(root.getLeft()!= null){
-			inLeft = (containsHelper(item, root.getLeft()));
-		}
-		if(root.getRight()!= null){
-			inRight = containsHelper(item, root.getRight());
-		}
-		if (inLeft||inRight){
-			return true;
-		} else{
-			return false;
-		}
-	}
-	 /********
-		* Removes all items from the set
-		*/
+	
+	/********
+	* Removes all items from the set
+	*/
 	public void clear(){
 		this.head = null;
 		size = 0;
@@ -81,7 +42,7 @@ class SortedSet<T extends Comparable<T>> /*implements SortedSetADT*/{
 		* @return the number of items in the set
 		*/
 	public int size(){
-		return this.size;
+		return head.size();	//call BiNode size method
 	}
 
 	/************
@@ -102,5 +63,8 @@ class SortedSet<T extends Comparable<T>> /*implements SortedSetADT*/{
 		* Returns a List of the items in this set, in order.
 		* @return A list of the items in this set.
 		*/
-	//public ListADT<T> toList(){}
+	public ListADT<T> toList(){
+		ArrayList<T> tranverse = new ArrayList<T>();
+		return listBuilder(head)
+	}
 }
