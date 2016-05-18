@@ -44,5 +44,5 @@ public interface BSTInterface<T extends Comparable<T>> {
     * Return an array that contains all the items in this BST in an in-order traversal
     * @return the array
     */
-   //public ListADT<T> inOrderTraversal();
+   public ListADT<T> inOrderTraversal();
 }
