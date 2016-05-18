@@ -21,7 +21,6 @@ class BiNode<T extends Comparable<T>>{
 	public void setLeft(BiNode<T> l) { left = l; } //sets left child of node
 	public void setRight(BiNode<T> r) { right = r; } //sets right child of node
 
-
 	public int size( BiNode t ){ //returns number of nodes in tree
 		if( t == null ){ //if there is not a node here, it returns 0
 			return 0;
