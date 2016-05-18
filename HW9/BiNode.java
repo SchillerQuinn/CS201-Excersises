@@ -58,20 +58,21 @@ class BiNode<T extends Comparable<T>>{
 		if(this.getData().compareTo(item)==0){ //if we find what we are looking for, return true
 			return true;
 		}
-		
-		boolean inLeft = false; 
-		boolean inRight = false;
-		
-		if(this.left!= null){ //if there is a node to the left, check if the left subtree contains item
-			inLeft = this.left.contains(item);
+		if (this.getData().compareTo(item)>0){ //if the item is greater than then this, recurse down the right side
+			if (this.getRight() == null){ //if there is no data on this side, put a new value there.
+				return false;
+			}
+			else{ //if there is data, recurse down that side 
+				return this.right.contains(item);
+			}
 		}
-		if(this.right!= null){ //if there is a node to the right, check if the right subtree contains item
-			inRight = this.right.contains(item);
-		}
-		if (inLeft||inRight){ //if it is in the left or right, then return true; otherwise, return false
-			return true;
-		} else{
-			return false;
+		else{ //if the item is less than or equal to, check the left side
+			if (this.getLeft() == null){ //if there is no data on this side, put a new value there.
+				return false;
+			}
+			else{ //if there is data, recurse down that side 
+				return this.left.contains(item);
+			}
 		}
 	}
 
