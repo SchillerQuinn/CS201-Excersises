@@ -3,8 +3,7 @@ class BiNode<T extends Comparable<T>>{
 	private BiNode<T> left;
 	private BiNode<T> right;
 
-
-	public BiNode(T d){ //fast insert method for making a new node without setting roots
+	public BiNode(T d){ //basic constructor for making a new node without setting roots
 		this( d , null, null ); //call full binary Node method
 	}
 
@@ -21,7 +20,6 @@ class BiNode<T extends Comparable<T>>{
 	public void setData(T d) { data = d; } //sets data of the node
 	public void setLeft(BiNode<T> l) { left = l; } //sets left child of node
 	public void setRight(BiNode<T> r) { right = r; } //sets right child of node
-
 
 
 	public int size( BiNode t ){ //returns number of nodes in tree
