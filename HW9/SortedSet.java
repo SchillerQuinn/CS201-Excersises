@@ -7,6 +7,10 @@ class SortedSet<T extends Comparable<T>> /*implements SortedSetADT*/{
 		* Adds the given item to the set, ignoring duplicates
 		* @param item The item to add
 		*/
+
+	public SortedSet(){
+		head = null;
+	}
 	public void add(T item){
 		head.add(item); //use Binode's add method
 	}
@@ -50,14 +54,37 @@ class SortedSet<T extends Comparable<T>> /*implements SortedSetADT*/{
 		* @param otherSet A SortedSet to combine with this set
 		* @return The union of the two sets
 		*/
-	//public SortedSetADT<T> union(SortedSetADT<T> otherSet);
+	public SortedSetADT<T> union(SortedSetADT<T> otherSet){
+		ArrayList<T> items = new ArrayList<T>();
+		items = this.toList(); //fill the list full of items in this binary tree
+		items.addAll(otherSet.toList()); //add all of the items in the other binary tree;
+		SortedSet foo = new SortedSet(); //create a sortedSet to fll the union of
+		while (items.isEmpty()!=true){
+			foo.add(items.remove(items.getSize()-1)); //remove the last item in the list (so you don't have to shift down the entire array every time);
+		}
+		return foo; //return the union set
+	}
 
 	/************
 		* Creates a new SortedSet and returns an intersections of this set and otherSet
 		* @param otherSet A SortedSet to combine with this set
 		* @return The intersection of the two sets
 		*/
-	//public SortedSetADT<T> intersect(SortedSetADT<T> otherSet);
+	public SortedSetADT<T> intersect(SortedSetADT<T> otherSet){
+		ArrayList<T> ourItems = new ArrayList<T>();
+		ArrayList<T> otherItems = new ArrayList<T>();
+		ourItems = this.toList(); //fill the list full of items in this binary tree
+		otherItems = otherSet.toList(); //add all of the items in the other binary tree;
+
+		SortedSet foo = new SortedSet(); //create a sortedSet to fll the union of
+		while (items.isEmpty()!=true){
+			T holder = ourItems.remove(ourItems.getSize()-1);
+			if(otherItems.contains(holder)){
+				foo.add(holder);
+			}
+		}
+		return foo; //return the intersection set	
+	}
 
 	/************
 		* Returns a List of the items in this set, in order.
@@ -65,6 +92,17 @@ class SortedSet<T extends Comparable<T>> /*implements SortedSetADT*/{
 		*/
 	public ListADT<T> toList(){
 		ArrayList<T> tranverse = new ArrayList<T>();
-		return listBuilder(head)
+		return listBuilder(head, transverse);
+	}
+
+	private ListADT<T> listBuilder(BiNode root, ListADT list){
+		if (root.getLeft()!= null){ //check the left side
+			list = listBuilder(root.getLeft(), list); //add the left side of the tree to the list
+		}
+		list.add(root.getData); //after the left side has been added to the list, add the parent
+		if(root.getRight()!=null){	//check the right side
+			list = listBuilder(root.getRight(),list);	//add the right side of the tree to the list
+		}
+		return list; //return the list
 	}
 }
