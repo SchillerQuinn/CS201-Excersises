@@ -18,7 +18,8 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT{
 		* @return true if that item was removed, false otherwise
 		*/
 	public boolean remove(T item){
-		return head.remove(item); //use BiNode remove method
+		BiNode fakeHead = new BiNode(head.getData(),head,null); //make a fake new head so the real head of tree can have a parent;
+		return head.remove(item, fakeHead);	//use built-in binode remove method
 	}
 
 	 /*********

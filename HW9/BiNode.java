@@ -26,7 +26,7 @@ class BiNode<T extends Comparable<T>>{
 			return 0;
 		}
 		else{
-			return 1 + size(t.left) + size(t.right)  //if there is node here, it adds 1 and then checks size of left and then right subtree
+			return 1 + size(t.left) + size(t.right);  //if there is node here, it adds 1 and then checks size of left and then right subtree
 		}
 	}
 
@@ -36,7 +36,7 @@ class BiNode<T extends Comparable<T>>{
 		}
 		else{
 			if (this.getData().compareTo(item)>0){ //if the item is greater than then this, recurse down the right side
-				if (this.getRight() == null){ //if there is no data on this side, put a new value there.
+				if (this.getRight() == null){ //if there is no data on this side, put a new data there.
 					this.right = new BiNode(item);
 				}
 				else{ //if there is data, recurse down that side 
@@ -44,7 +44,7 @@ class BiNode<T extends Comparable<T>>{
 				}
 			}
 			else{ //if the item is less than or equal to, check the left side
-				if (this.getLeft() == null){ //if there is no data on this side, put a new value there.
+				if (this.getLeft() == null){ //if there is no data on this side, put a new data there.
 				this.left = new BiNode(item);
 				}
 				else{ //if there is data, recurse down that side 
@@ -54,12 +54,62 @@ class BiNode<T extends Comparable<T>>{
 		}
 	}
 
+
+	public boolean remove(T item, BiNode parent) {
+		if (this.data.compareTo(item)<0) { //if item is less than  this value
+			if (left != null){ //if there is another item less than this value it can check
+				return left.remove(item, this); //recurse
+			}
+			else{ //the item is not in the tree
+				return false;
+			}
+		} 
+		else if (this.data.compareTo(item)>0) {//if item is more than this value
+			if (right != null){ //if there is another item greater than this value it can check
+				return right.remove(item, this); //recurse
+			}
+			else{//the item is not in the tree
+				return false;
+			}
+		} 
+		else {
+			if (left != null && right != null) {	//if it has two children
+				this.data = right.minValue();	//set it equal to the value of the smallest item on the right hand of the tree
+				right.remove(this.data, this);	//remove that smallest item from the tree;
+			} else if (parent.left == this) {	//if this is the left child of the parent and we only have one child
+				if(left!= null){	//replace this node with the correct one of it's children
+					parent.left = this.left; 
+				}
+				else{
+					parent.left = this.right;
+				}
+			} else if (parent.right == this) {//if this is the right child of the parent and we only have one child
+				if(left!= null){ //replace this node with the correct one of it's children
+					parent.right = this.left;
+				}
+				else{
+					parent.right = this.right;
+				}
+			}
+			return true; //return that the item was removed
+		}
+	}
+
+	public T minValue() {
+		if (left == null){ //if the node has no left children
+			return this.data; //this is the lowest item
+		}
+		else{
+			return left.minValue();
+		}
+	}
+	
 	public boolean contains(T item){
 		if(this.getData().compareTo(item)==0){ //if we find what we are looking for, return true
 			return true;
 		}
 		if (this.getData().compareTo(item)>0){ //if the item is greater than then this, recurse down the right side
-			if (this.getRight() == null){ //if there is no data on this side, put a new value there.
+			if (this.getRight() == null){ //if there is no data on this side, put a new data there.
 				return false;
 			}
 			else{ //if there is data, recurse down that side 
@@ -67,19 +117,12 @@ class BiNode<T extends Comparable<T>>{
 			}
 		}
 		else{ //if the item is less than or equal to, check the left side
-			if (this.getLeft() == null){ //if there is no data on this side, put a new value there.
+			if (this.getLeft() == null){ //if there is no data on this side, put a new data there.
 				return false;
 			}
 			else{ //if there is data, recurse down that side 
 				return this.left.contains(item);
 			}
-		}
-	}
-
-	public boolean remove(T item){
-		if(this.getData().compareTo(item)==0){
-			this.getData() == null;
-			return true;
 		}
 	}
 }

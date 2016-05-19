@@ -25,8 +25,9 @@ class BSTSet<T extends Comparable<T>> implements BSTInterface{
 	 * @param item The item to remove
 	 * @return true if that item was removed, false otherwise
 	 */
-	public boolean remove(T item){
-		return head.remove(item);
+	private boolean remove( T item){
+		BiNode fakeHead = new BiNode(head.getData(),head,null); //make a fake new head so the real head of tree can have a parent;
+		return head.remove(item, fakeHead);	//use built-in binode remove method
 	}
 
 	/*********
