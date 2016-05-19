@@ -77,14 +77,14 @@ class BiNode<T extends Comparable<T>>{
 				this.data = right.minValue();	//set it equal to the value of the smallest item on the right hand of the tree
 				right.remove(this.data, this);	//remove that smallest item from the tree;
 			} else if (parent.getLeft() == this) {	//if this is the left child of the parent and we only have one child
-				if(left!= null){	//replace this node with the correct one of it's children
+				if(left!= null){	//replace this node with the correct one of its children
 					parent.setLeft(this.left); 
 				}
 				else{
 					parent.setLeft(this.right);
 				}
 			} else if (parent.getRight() == this) {//if this is the right child of the parent and we only have one child
-				if(left!= null){ //replace this node with the correct one of it's children
+				if(left!= null){ //replace this node with the correct one of its children
 					parent.setRight(this.left);
 				}
 				else{
@@ -109,7 +109,7 @@ class BiNode<T extends Comparable<T>>{
 			return true;
 		}
 		if (this.getData().compareTo(item)>0){ //if the item is greater than then this, recurse down the right side
-			if (this.getRight() == null){ //if there is no data on this side, put a new data there.
+			if (this.getRight() == null){ //if there is no value on this side, put a new value there.
 				return false;
 			}
 			else{ //if there is data, recurse down that side 
@@ -117,7 +117,7 @@ class BiNode<T extends Comparable<T>>{
 			}
 		}
 		else{ //if the item is less than or equal to, check the left side
-			if (this.getLeft() == null){ //if there is no data on this side, put a new data there.
+			if (this.getLeft() == null){ //if there is no data on this side, put a new value there.
 				return false;
 			}
 			else{ //if there is data, recurse down that side 
