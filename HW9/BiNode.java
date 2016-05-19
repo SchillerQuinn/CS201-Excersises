@@ -76,19 +76,19 @@ class BiNode<T extends Comparable<T>>{
 			if (left != null && right != null) {	//if it has two children
 				this.data = right.minValue();	//set it equal to the value of the smallest item on the right hand of the tree
 				right.remove(this.data, this);	//remove that smallest item from the tree;
-			} else if (parent.left == this) {	//if this is the left child of the parent and we only have one child
+			} else if (parent.getLeft() == this) {	//if this is the left child of the parent and we only have one child
 				if(left!= null){	//replace this node with the correct one of it's children
-					parent.left = this.left; 
+					parent.setLeft(this.left); 
 				}
 				else{
-					parent.left = this.right;
+					parent.setLeft(this.right);
 				}
-			} else if (parent.right == this) {//if this is the right child of the parent and we only have one child
+			} else if (parent.getRight() == this) {//if this is the right child of the parent and we only have one child
 				if(left!= null){ //replace this node with the correct one of it's children
-					parent.right = this.left;
+					parent.setRight(this.left);
 				}
 				else{
-					parent.right = this.right;
+					parent.setRight(this.right);
 				}
 			}
 			return true; //return that the item was removed
