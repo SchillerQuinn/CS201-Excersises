@@ -1,15 +1,22 @@
 //My Partner is Andrew Maris
 
-public class LinkedUList<T> implements ListADT<T>{
+public class LinkedUList<T extends Comparable<T>> implements UnorderedListADT<T>{
 
-	private int count = 0;
-	private Node<T> head = new Node<T>(null, null);
-	private Node<T> back = head; //pointer to last node in list
+	private int count;
+	private Node<T> head;
+	private Node<T> back; //pointer to last node in list
 
 	/*******************
 	 * Get the data at the given index, starting at 0
 	 * @return the data at that index
 	 *******************/
+	
+	LinkedUList(){
+		count = 0;
+		head = new Node<T>(null, null);
+		Node<T> back = head; //pointer to last node in list
+	}
+
 	public T get(int index){
 		Node<T> check = head.getNext(); //initilize a node object to loop through the list
 		if (index <= this.count){	//only allow the user to get valid items
