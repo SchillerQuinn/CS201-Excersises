@@ -1,6 +1,3 @@
-import java.util.*;
-
-
 class BiNode<T extends Comparable<T>>{
 	private T data;
 	private BiNode<T> left;
@@ -38,7 +35,7 @@ class BiNode<T extends Comparable<T>>{
 			this.setData(item); 
 		}
 		else{
-			if (this.getData().compare(item)>0){ //if the item is greater than then this, recurse down the right side
+			if (this.getData().compareTo(item)>0){ //if the item is greater than then this, recurse down the right side
 				if (this.getRight() == null){ //if there is no data on this side, put a new data there.
 					this.right = new BiNode(item);
 				}
@@ -59,7 +56,7 @@ class BiNode<T extends Comparable<T>>{
 
 
 	public boolean remove(T item, BiNode parent) {
-		if (this.data.compare(item)<0) { //if item is less than  this value
+		if (this.data.compareTo(item)<0) { //if item is less than  this value
 			if (left != null){ //if there is another item less than this value it can check
 				return left.remove(item, this); //recurse
 			}
@@ -67,7 +64,7 @@ class BiNode<T extends Comparable<T>>{
 				return false;
 			}
 		} 
-		else if (this.data.compare(item)>0) {//if item is more than this value
+		else if (this.data.compareTo(item)>0) {//if item is more than this value
 			if (right != null){ //if there is another item greater than this value it can check
 				return right.remove(item, this); //recurse
 			}
@@ -108,10 +105,10 @@ class BiNode<T extends Comparable<T>>{
 	}
 	
 	public boolean contains(T item){
-		if(this.getData().compare(item)==0){ //if we find what we are looking for, return true
+		if(this.getData().compareTo(item)==0){ //if we find what we are looking for, return true
 			return true;
 		}
-		if (this.getData().compare(item)>0){ //if the item is greater than then this, recurse down the right side
+		if (this.getData().compareTo(item)>0){ //if the item is greater than then this, recurse down the right side
 			if (this.getRight() == null){ //if there is no value on this side, put a new value there.
 				return false;
 			}
