@@ -1,5 +1,5 @@
 import java.util.*;
-import java.util.ArrayList; //use built-in list implimentation
+import java.util.List; //use built-in list implimentation
 
 class BSTSet<T extends Comparable<T>> implements BSTInterface<T> {
 	

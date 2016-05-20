@@ -1,10 +1,8 @@
-import java.util.LinkedList; //use built-in list implimentation
 import java.util.*;
 
 class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 	
 	private BiNode head = new BiNode(null);
-	private int count = 0;
 
 	/*******
 		* Adds the given item to the set, ignoring duplicates
@@ -13,7 +11,6 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 
 	public void add(T item){
 		head.add(item); //use Binode's add method
-		count++;
 	}
 
 	 /*********
@@ -23,7 +20,6 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 		*/
 	public boolean remove(T item){
 		BiNode<T> fakeHead = new BiNode<T>((T)(head.getData()),head,null); //make a fake new head so the real head of tree can have a parent;
-		count--;
 		return head.remove(item, fakeHead);	//use built-in binode remove method
 	}
 
@@ -41,7 +37,6 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 	*/
 	public void clear(){
 		this.head = null;
-		count = 0;
 	}
 
 	/*********
@@ -49,7 +44,7 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 		* @return the number of items in the set
 		*/
 	public int size(){
-		return count;
+		return head.size(head);
 	}
 
 	/************
@@ -58,12 +53,18 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 		* @return The union of the two sets
 		*/
 	public SortedSetADT<T> union(SortedSetADT<T> otherSet){
-		LinkedUList<T> items = new LinkedUList<T>();
+		ListADT<T> items = new LinkedUList<T>();
 		items = this.toList(); //fill the list full of items in this binary tree
-		items.addAll(otherSet.toList()); //add all of the items in the other binary tree;
+		items.addAll(otherSet.toList()); //add all of the items in the other binary tree; 
+		/* TODO
+		WRITE ADD ALL METHOD
+		*/
 		SortedSet foo = new SortedSet(); //create a sortedSet to fll the union of
 		while (items.isEmpty()!=true){
-			foo.add(items.remove(items.getSize()-1)); //remove the last item in the list (so you don't have to shift down the entire array every time);
+			foo.add(items.remove(items.size()-1)); //remove the last item in the list (so you don't have to shift down the entire array every time);
+			/* TODO
+			WRITE ADD TO INDEX METHOD
+			*/
 		}
 		return foo; //return the union set
 	}
@@ -74,14 +75,14 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 		* @return The intersection of the two sets
 		*/
 	public SortedSetADT<T> intersect(SortedSetADT<T> otherSet){
-		LinkedList<T> ourItems = new LinkedList<T>();
-		LinkedList<T> otherItems = new LinkedList<T>();
+		LinkedUList<T> ourItems = new LinkedUList<T>();
+		LinkedUList<T> otherItems = new LinkedUList<T>();
 		ourItems = this.toList(); //fill the list full of items in this binary tree
 		otherItems = otherSet.toList(); //add all of the items in the other binary tree;
 
 		SortedSet foo = new SortedSet(); //create a sortedSet to fll the union of
 		while (items.isEmpty()!=true){
-			T holder = ourItems.remove(ourItems.getSize()-1);
+			T holder = ourItems.remove(ourItems.size()-1);
 			if(otherItems.contains(holder)){
 				foo.add(holder);
 			}
@@ -94,7 +95,7 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 		* @return A list of the items in this set.
 		*/
 	public ListADT<T> toList(){
-		LinkedUList<T> traverse = new LinkedUList<T>();
+		ListADT<T> traverse = new LinkedUList<T>();
 		return listBuilder(head, transverse);
 	}
 

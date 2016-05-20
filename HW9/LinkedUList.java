@@ -1,9 +1,10 @@
 //My Partner is Andrew Maris
 
-public class LinkedUList<T> implements UnorderedListADT<T>{
+public class LinkedUList<T> implements ListADT<T>{
 
 	private int count = 0;
 	private Node<T> head = new Node<T>(null, null);
+	private Node<T> back = head; //pointer to last node in list
 
 	/*******************
 	 * Get the data at the given index, starting at 0
@@ -93,12 +94,10 @@ public class LinkedUList<T> implements UnorderedListADT<T>{
 		
 	}
 
-	public void addToEnd(T item){
-		Node<T> check = this.head;
-		for (int i = 0; i < count; i ++){ //set check to the right index in the 
-			check=check.getNext(); //set check to one higher
-		}			
-		check.setNext( new Node<T>(item, check.getNext()) ); //insert the item into the list
+	public void addToEnd(T item){ //using a pointer to back node to make O(1) opperation
+		Node<T> foo = new Node<T>(item, null);
+		this.back.setNext(foo); //insert the item into the list
+		this.back=foo;
 		this.count++; //update the size
 		
 	}
