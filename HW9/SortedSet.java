@@ -2,7 +2,7 @@ import java.util.*;
 
 class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 	
-	private BiNode head = new BiNode(null);
+	public BiNode head = new BiNode(null);
 
 	/*******
 		* Adds the given item to the set, ignoring duplicates
@@ -54,17 +54,18 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 		*/
 	public SortedSetADT<T> union(SortedSetADT<T> otherSet){
 		ListADT<T> items = new LinkedUList<T>();
+		ListADT<T> otherItems = new LinkedUList<T>();
 		items = this.toList(); //fill the list full of items in this binary tree
-		items.addAll(otherSet.toList()); //add all of the items in the other binary tree; 
-		/* TODO
-		WRITE ADD ALL METHOD
-		*/
+		otherItems = otherSet.toList(); //fill the second list full of items in the other binary tree
 		SortedSet foo = new SortedSet(); //create a sortedSet to fll the union of
-		while (items.isEmpty()!=true){
-			foo.add(items.remove(items.size()-1)); //remove the last item in the list (so you don't have to shift down the entire array every time);
-			/* TODO
-			WRITE ADD TO INDEX METHOD
-			*/
+		
+		while (items.isEmpty()!=true){ //add all of the items in the other binary tree; 
+			foo.add((T)items.get(0)); 
+			items.remove(items.get(0));
+		}
+		while (otherItems.isEmpty()!=true){
+			foo.add((T)otherItems.get(0));
+			otherItems.remove(otherItems.get(0));
 		}
 		return foo; //return the union set
 	}
@@ -75,17 +76,18 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 		* @return The intersection of the two sets
 		*/
 	public SortedSetADT<T> intersect(SortedSetADT<T> otherSet){
-		LinkedUList<T> ourItems = new LinkedUList<T>();
-		LinkedUList<T> otherItems = new LinkedUList<T>();
+		ListADT<T> ourItems = new LinkedUList<T>();
+		ListADT<T> otherItems = new LinkedUList<T>();
 		ourItems = this.toList(); //fill the list full of items in this binary tree
 		otherItems = otherSet.toList(); //add all of the items in the other binary tree;
 
 		SortedSet foo = new SortedSet(); //create a sortedSet to fll the union of
-		while (items.isEmpty()!=true){
-			T holder = ourItems.remove(ourItems.size()-1);
+		while (ourItems.isEmpty()!=true){
+			T holder = ourItems.get(0);
 			if(otherItems.contains(holder)){
 				foo.add(holder);
 			}
+			ourItems.remove(holder);
 		}
 		return foo; //return the intersection set	
 	}
@@ -96,17 +98,6 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 		*/
 	public ListADT<T> toList(){
 		ListADT<T> traverse = new LinkedUList<T>();
-		return listBuilder(head, transverse);
-	}
-
-	private LinkedUList<T> listBuilder(BiNode root, LinkedUList<T> list){
-		if (root.getLeft()!= null){ //check the left side
-			list = listBuilder(root.getLeft(), list); //add the left side of the tree to the list
-		}
-		list.addToEnd((T)(root.getData())); //after the left side has been added to the list, add the parent
-		if(root.getRight()!=null){	//check the right side
-			list = listBuilder(root.getRight(),list);	//add the right side of the tree to the list
-		}
-		return list; //return the list
+		return this.head.inOrderTraversal();
 	}
 }
