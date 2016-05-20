@@ -104,4 +104,8 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT{
 		}
 		return list; //return the list
 	}
+
+	public static void main(String[] args){
+		BiNode
+	}
 }
