@@ -72,13 +72,19 @@ class BiNode<T extends Comparable<T>>{
 				return false;
 			}
 		} 
-		else {
-			if(parent == null){
-				
-			}
+		else { //if this item is equal to the one that needs to be removed
 			if (left != null && right != null) {	//if it has two children
 				this.data = right.minValue();	//set it equal to the value of the smallest item on the right hand of the tree
-				right.remove(this.data, this);	//remove that smallest item from the tree;
+				right.remove(this.data, this);	//remove that smallest item from the tree
+			} else if (parent == null){	//root with only one child
+				if (right!= null){ //if there is a right child
+					this.data = right.minValue();	//set it equal to the value of the smallest item on the right hand of the tree
+					right.remove(this.data, this);	//remove that smallest item from the tree;
+				}
+				else{ //if there is left child
+					this.data = left.maxValue(); //set it equal to the largest value in the left side of the tree
+					left.remove(this.data, this);	//remove that largest item fro mthe tree
+				}
 			} else if (parent.getLeft() == this) {	//if this is the left child of the parent and we only have one child
 				if(left!= null){	//replace this node with the correct one of its children
 					parent.setLeft(this.left); 
@@ -94,11 +100,11 @@ class BiNode<T extends Comparable<T>>{
 					parent.setRight(this.right);
 				}
 			}
-			return true; //return that the item was removed
 		}
+		return true; //return that the item was removed
 	}
 
-	public T minValue() {
+	public T minValue() { //find the smallest item at or below this level
 		if (left == null){ //if the node has no left children
 			return this.data; //this is the lowest item
 		}
@@ -107,6 +113,15 @@ class BiNode<T extends Comparable<T>>{
 		}
 	}
 	
+	public T maxValue() {	//find the largest value at or above this level
+		if (right == null){ //if the node has no left children
+			return this.data; //this is the highest item
+		}
+		else{
+			return right.maxValue();
+		}
+	}
+
 	public boolean contains(T item){
 		if(this.getData().compareTo(item)==0){ //if we find what we are looking for, return true
 			return true;

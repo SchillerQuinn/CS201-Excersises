@@ -1,13 +1,11 @@
-import java.util.*;
-import java.util.ArrayList; //use built-in list implimentation
-
 class BSTSet<T extends Comparable<T>> implements BSTInterface<T> {
 	
-	private BiNode head = new BiNode(null);
-	private int count = 0;
+	private BiNode head;
+	private int count;
 	
-	public BSTSet(){
-
+	public BSTSet(){ //initialize the variables
+		head = new BiNode(null);
+		count = 0;
 	}
 
 	/*********
@@ -63,7 +61,7 @@ class BSTSet<T extends Comparable<T>> implements BSTInterface<T> {
 	 * @return true if the BST is empty
 	 */
 	public boolean isEmpty(){
-		if (count == 0){
+		if (count == 0){ //if there are no items in the set
 			return true;
 		}
 		else{

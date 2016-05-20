@@ -1,4 +1,4 @@
-import java.util.*;
+//Quinn Schiller and Andrew Maris
 
 class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 	
@@ -22,8 +22,8 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 		*/
 	public boolean remove(T item){
 		
-		BiNode fakeHead = new BiNode(head.getData(),head,null); //make a fake new head so the real head of tree can have a parent;
-		boolean retVal = head.remove(item, fakeHead);
+		//BiNode fakeHead = new BiNode(head.getData(),head,null); //make a fake new head so the real head of tree can have a parent;
+		boolean retVal = head.remove(item, null);
 		if(retVal){
 			count--;
 		}
@@ -192,6 +192,7 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 		test1.add("y");
 		test1.add("x");
 		test1.add("c");
+		
 		System.out.println(test1.size()); // prints 5
 		System.out.println("------");
 
@@ -226,7 +227,7 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 		System.out.println(test1.contains("y")); // prints true
 		System.out.println(test1.contains("z")); // prints false
 		System.out.println("------");
-
+		
 		//Testing traversal
 		test1.add("b");
 		test1.add("m");
@@ -296,8 +297,5 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT<T>{
 		for(int i = 0; i<tU2size; i++){ //prints out the elements in the list, which represent elements in the intersection
 			System.out.println(travResult22.get(i));
 		}
-
-		
-
 	}
 }
