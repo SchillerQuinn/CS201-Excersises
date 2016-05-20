@@ -12,9 +12,9 @@ public class LinkedUList<T extends Comparable<T>> implements UnorderedListADT<T>
 	 *******************/
 	
 	LinkedUList(){
-		count = 0;
-		head = new Node<T>(null, null);
-		Node<T> back = head; //pointer to last node in list
+		this.count = 0;
+		this.head = new Node<T>(null, null);
+		this.back = head; //pointer to last node in list
 	}
 
 	public T get(int index){
@@ -69,14 +69,19 @@ public class LinkedUList<T extends Comparable<T>> implements UnorderedListADT<T>
 	public T remove(T item){
 		Node<T> prev = this.head; //initilize a node to walk through the list
 		T foo = null; //holder for return value
+		int indexAt = 0; // tells us which index we are at
 		for (Node<T> check = this.head.getNext(); check!=null; check =check.getNext()){ //loop through all of the array
 			foo = check.getData(); //hold the value of the node
 			if (foo.equals(item)){ //if there is a match
+				if(indexAt == count){ // if you are at the back, it sets the previous node as the back node
+					this.back = prev; 
+				}
 				prev.setNext(check.getNext()); //remove the item from the linked list
 				this.count--; //make the size smaller
 				return foo; //if the check index holds the item, return true.
 			}
 			prev = check;
+			indexAt++;
 		}
 		return null; //if it doesn't find the item return null
 	}
@@ -87,6 +92,7 @@ public class LinkedUList<T extends Comparable<T>> implements UnorderedListADT<T>
 	public void clear(){
 		this.count = 0; //update the size
 		this.head.setNext(null); //cut the rest of the linked list off, clearing it
+		this.back = head;
 	}
 
 	public void add(T item, int index){

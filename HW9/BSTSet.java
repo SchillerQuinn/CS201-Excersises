@@ -191,7 +191,7 @@ class BSTSet<T extends Comparable<T>> implements BSTInterface<T> {
 
 		int num = travResult.size();
 		for(int i = 0; i<num; i++){
-			System.out.println( travResult.get(i)); //prints xyz
+			System.out.println( travResult.get(i)); //prints b c m x y z on different lines
 		}
 		System.out.println("------");
 
