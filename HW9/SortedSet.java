@@ -1,4 +1,5 @@
-import java.util.ArrayList; //use built-in list implimentation
+import java.util.LinkedList; //use built-in list implimentation
+import java.util.*;
 
 class SortedSet<T extends Comparable<T>> implements SortedSetADT{
 	
@@ -53,7 +54,7 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT{
 		* @return The union of the two sets
 		*/
 	public SortedSetADT<T> union(SortedSetADT<T> otherSet){
-		ArrayList<T> items = new ArrayList<T>();
+		LinkedList<T> items = new LinkedList<T>();
 		items = this.toList(); //fill the list full of items in this binary tree
 		items.addAll(otherSet.toList()); //add all of the items in the other binary tree;
 		SortedSet foo = new SortedSet(); //create a sortedSet to fll the union of
@@ -69,8 +70,8 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT{
 		* @return The intersection of the two sets
 		*/
 	public SortedSetADT<T> intersect(SortedSetADT<T> otherSet){
-		ArrayList<T> ourItems = new ArrayList<T>();
-		ArrayList<T> otherItems = new ArrayList<T>();
+		LinkedList<T> ourItems = new LinkedList<T>();
+		LinkedList<T> otherItems = new LinkedList<T>();
 		ourItems = this.toList(); //fill the list full of items in this binary tree
 		otherItems = otherSet.toList(); //add all of the items in the other binary tree;
 
@@ -89,11 +90,11 @@ class SortedSet<T extends Comparable<T>> implements SortedSetADT{
 		* @return A list of the items in this set.
 		*/
 	public ListADT<T> toList(){
-		ArrayList<T> tranverse = new ArrayList<T>();
+		ListADT<T> tranverse = new LinkedList<T>();
 		return listBuilder(head, transverse);
 	}
 
-	private ListADT<T> listBuilder(BiNode root, ListADT list){
+	private ListADT<T> listBuilder(BiNode root, ListADT<T> list){
 		if (root.getLeft()!= null){ //check the left side
 			list = listBuilder(root.getLeft(), list); //add the left side of the tree to the list
 		}

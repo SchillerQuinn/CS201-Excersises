@@ -50,7 +50,7 @@ class BSTSet<T extends Comparable<T>> implements BSTInterface{
 	 * @return true if the BST is empty
 	 */
 	public boolean isEmpty(){
-		if (head.size() == 0){
+		if (head.size(head) == 0){
 			return true;
 		}
 		else{
@@ -62,8 +62,8 @@ class BSTSet<T extends Comparable<T>> implements BSTInterface{
 	 * Return an array that contains all the items in this BST in an in-order traversal
 	 * @return the array
 	 */
-	public ArrayList<T> inOrderTraversal(){
-		ArrayList<T> traverse = new ArrayList<T>();
+	public ListADT<T> inOrderTraversal(){
+		ListADT<T> traverse = new ArrayList<T>();
 		return this.listBuilder(head, traverse);
 	}
 
