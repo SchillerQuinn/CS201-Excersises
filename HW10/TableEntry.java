@@ -1,5 +1,7 @@
+//Quinn Schiller and Andrew Marris
+
 public class TableEntry<K, V> {
-	private final K key;  //final because we will never change the key
+	private  K key;  //key of the table entry
 	private V value;  //value the entry holds
 
 	public TableEntry(K key, V value) {  //initialize the entry 
