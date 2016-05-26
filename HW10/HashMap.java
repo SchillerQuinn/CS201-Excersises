@@ -127,8 +127,9 @@ public class HashMap<K, V> implements MapADT<K, V>{
 		return false;	//if it makes it all the way to the end without finding the value, return false
 	}
 
+	//NOTE: ONLY WORKS FOR ODD NUMBERS. Only odd numbers are passed into it though. 
 	private boolean isPrime(int n){
-		for (int i=2; i*i<n; i++){	//test to see if n is divisible by all numbers less than the square root of it
+		for (int i=3; i*i<n; i+=2){	//test to see if n is divisible by all odd numbers less than the square root of it
 			if(n%i == 0){
 				return false;	//if it is divisible by a lower number, it isn't prime
 			}
