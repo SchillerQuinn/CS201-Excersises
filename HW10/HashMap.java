@@ -146,7 +146,6 @@ public class HashMap<K, V> implements MapADT<K, V>{
 
 	private void reSize(){
 		if (this.size >= INITIAL_SIZE){
-			System.out.println("------------RESIZING------------" + INITIAL_SIZE);
 			//create a new sized table to copy everything into
 			int newSize = nextPrime();
 			LinkedList<TableEntry<K,V>>[] holderTable = (LinkedList<TableEntry<K,V>>[]) new LinkedList[newSize];
