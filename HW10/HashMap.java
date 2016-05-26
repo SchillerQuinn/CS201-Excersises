@@ -52,7 +52,7 @@ public class HashMap<K, V> implements MapADT<K, V>{
 		}
 	}
 
-	public void copy(K key, V value, LinkedList<TableEntry<K,V>>[] newTable, int newSize) {
+	private void copy(K key, V value, LinkedList<TableEntry<K,V>>[] newTable, int newSize) {
 		if (!this.containsKey(key)){
 			newTable[hash(key, newSize)].addFirst(new TableEntry(key, value));	//add to right sublist
 		}
