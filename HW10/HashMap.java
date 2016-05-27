@@ -1,4 +1,4 @@
-//Quinn Schiller and Andrew Marris
+//Quinn Schiller and Andrew Maris
 
 import java.util.List;
 import java.util.LinkedList;
@@ -15,7 +15,7 @@ public class HashMap<K, V> implements MapADT<K, V>{
 	*
 	*/
 	public HashMap(){	//initialize the hashMap
-		table = (LinkedList<TableEntry<K,V>>[]) new LinkedList[INITIAL_SIZE];
+		table = (LinkedList<TableEntry<K,V>>[]) new LinkedList[INITIAL_SIZE]; //creating the table as an array of linked lists of table entrues
 		for (int i = 0; i < INITIAL_SIZE; i++) {	//initialize each linked list in the hash map
 			table[i] = new LinkedList<TableEntry<K,V>>();
 		}
@@ -37,15 +37,15 @@ public class HashMap<K, V> implements MapADT<K, V>{
 	*
 	*/
 	public V put(K key, V value) {
-		if (!this.containsKey(key)){
-			table[hash(key, INITIAL_SIZE)].addFirst(new TableEntry(key, value));	//add to right sublist
+		if (!this.containsKey(key)){ //if the table doesn't have this key yet
+			table[hash(key, INITIAL_SIZE)].addFirst(new TableEntry(key, value));	//add to correct sublist
 			this.size++;	//increase size
 			reSize();	//check to see if we need to increase the size of the table
-			return value;
+			return value; 
 		}
 		else{	//if there is an entry with this key in the table, overwrite the old values
 			this.remove(key);	//remove the old entry
-			table[hash(key, INITIAL_SIZE)].addFirst(new TableEntry(key, value));	//add to right sublist
+			table[hash(key, INITIAL_SIZE)].addFirst(new TableEntry(key, value));	//add to correct sublist
 			this.size++;	//increase size
 			reSize();	//check to see if we need to resize the table
 			return value;
@@ -53,12 +53,12 @@ public class HashMap<K, V> implements MapADT<K, V>{
 	}
 
 	private void copy(K key, V value, LinkedList<TableEntry<K,V>>[] newTable, int newSize) {
-		if (!this.containsKey(key)){
-			newTable[hash(key, newSize)].addFirst(new TableEntry(key, value));	//add to right sublist
+		if (!this.containsKey(key)){ //if the table doesn't have this key yet
+			newTable[hash(key, newSize)].addFirst(new TableEntry(key, value));	//add to correct sublist
 		}
 		else{	//if there is an entry with this key in the table, overwrite the old values
 			this.remove(key);	//remove the old entry
-			newTable[hash(key,newSize)].addFirst(new TableEntry(key, value));	//add to right sublist
+			newTable[hash(key,newSize)].addFirst(new TableEntry(key, value));	//add to correct sublist
 		}
 	}
 
@@ -68,13 +68,13 @@ public class HashMap<K, V> implements MapADT<K, V>{
 	*
 	*/
 	public V get(K key) {	//return the value held at the key
-		LinkedList<TableEntry<K,V>> hashList = table[hash(key, INITIAL_SIZE)];	//get right sublist
+		LinkedList<TableEntry<K,V>> hashList = table[hash(key, INITIAL_SIZE)];	//gets correct sublist
 		for (int i = 0; i < hashList.size(); i++) {	//loop through the sublist
 			if (hashList.get(i).getKey().equals(key)) {	//if the loop finds the entry with the right key
 				return hashList.get(i).getValue();	//return the value
 			}
 		}
-		return null;	//if it loops all the way through the hashList without finding the key, return null 
+		return null;	//if it loops all the way through the hashList without finding the key, return null since we couldn't find it
 	}
 
 	/*
@@ -101,13 +101,13 @@ public class HashMap<K, V> implements MapADT<K, V>{
 	*
 	*/
 	public boolean containsKey(K key){
-		LinkedList<TableEntry<K,V>> hashList = table[hash(key, INITIAL_SIZE)];	//get right sublist
+		LinkedList<TableEntry<K,V>> hashList = table[hash(key, INITIAL_SIZE)];	//get the correct sublist
 		for (int i = 0; i < hashList.size(); i++) {	//loop through the whole sublist
-			if (hashList.get(i).getKey().equals(key)) {	//if they find the key
+			if (hashList.get(i).getKey().equals(key)) {	//if it finds the key return true
 				return true;
 			}
 		}
-		return false;	//if they make it to the end of the the list before 
+		return false;	//if it does not find the key return false
 	}
 
 	/*
@@ -119,7 +119,7 @@ public class HashMap<K, V> implements MapADT<K, V>{
 		for (int k = 0; k < INITIAL_SIZE; k++) { //you have to check every value because there is no key
 			LinkedList<TableEntry<K,V>> hashList = table[k];	//look through each sublist
 			for (int i = 0; i < hashList.size(); i++) {	//look through each entry at each sublist
-				if (hashList.get(i).getValue().equals(value)) {	//if it finds the value
+				if (hashList.get(i).getValue().equals(value)) {	//if it finds the value, return true
 					return true;
 				}
 			}
@@ -140,16 +140,15 @@ public class HashMap<K, V> implements MapADT<K, V>{
 	private int nextPrime(){
 		int newSize = (INITIAL_SIZE*2)+1;	//start with a number one higher than double Initial size 
 		while (!isPrime(newSize)){	//until it finds a prime number, increase newSize
-			newSize+=2;	//skip even numbers
+			newSize+=2;	//increments  by two to skip even numbers
 		}
 		return newSize;
 	}
 
 	private void reSize(){
-		if (this.size >= INITIAL_SIZE){
-			//create a new sized table to copy everything into
-			int newSize = nextPrime();
-			LinkedList<TableEntry<K,V>>[] holderTable = (LinkedList<TableEntry<K,V>>[]) new LinkedList[newSize];
+		if (this.size >= INITIAL_SIZE){ //if the size parameter is greater than or equal to the constant INITIAL_SIZE, we need to create a new table
+			int newSize = nextPrime(); //Find next prime number to find new table size
+			LinkedList<TableEntry<K,V>>[] holderTable = (LinkedList<TableEntry<K,V>>[]) new LinkedList[newSize]; //create a temp holder table with the new size
 			for (int i = 0; i < newSize; i++) {	//initialize each linked list in the hash map
 				holderTable[i] = new LinkedList<TableEntry<K,V>>();
 			}

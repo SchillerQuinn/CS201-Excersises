@@ -1,4 +1,4 @@
-//Quinn Schiller and Andrew Marris
+//Quinn Schiller and Andrew Maris
 
 public class TableEntry<K, V> {
 	private  K key;  //key of the table entry
