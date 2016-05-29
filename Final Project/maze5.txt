@@ -1,0 +1,12 @@
+11 11
+aa0 ab3 ac0 ad0 ae0 af0 ag0 ah0 ai0 aj0 ak0 
+al0 am2 an0 ao1 ap2 aq4 ar4 as6 at7 au8 av0 
+aw0 ax7 ay0 az6 ba0 bb0 bc0 bd8 be0 bf8 bg0 
+bh0 bi8 bj0 bk6 bl0 bm1 bn1 bo7 bp7 bq8 br0 
+bs0 bt6 bu0 bv9 bw0 bx8 by0 bz5 ca0 cb3 cc0 
+cd0 ce6 cf5 cg9 ch8 ci9 cj0 ck6 cl5 cm3 cn0 
+co0 cp3 cq0 cr0 cs0 ct4 cu0 cv4 cw0 cx5 cy0 
+cz0 da3 db4 dc6 dd5 de3 df3 dg4 dh0 di5 dj0 
+dk0 dl3 dm0 dn1 do0 dp6 dq0 dr2 ds0 dt8 du0 
+dv0 dw3 dx4 dy1 dz2 ea5 eb5 ec1 ed1 ee7 ef0 
+eg0 eh0 ei0 ej0 ek0 el0 em0 en0 eo0 ep1 eq0 

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 /*********************
  * Vertex class for use in building a graph implementation
@@ -14,6 +15,9 @@ public class Vertex<T> {
    ***/
   private T label;
   private List<Vertex<T>> neighborList;
+
+  //hold the distance to each neighbor
+  private HashMap<Vertex<T>, Double> weights = new HashMap<Vertex<T>, Double>();
 
   /*******
    * distance and path are instance variables that will come 
@@ -55,15 +59,25 @@ public class Vertex<T> {
     return this.neighborList;
   }
 
+  
   /********************
-   * Add a neighbor to the vertex
+   * Add a neighbor to the vertex (no weight specified)
    *******************/
   public void addNeighbor(Vertex<T> n) {
     if(!this.neighborList.contains(n)) {
       this.neighborList.add(n);
     }
-  }
+  } 
 
+  /********************
+   * Add a neighbor to the vertex
+   *******************/
+  public void addNeighbor(Vertex<T> n, double dist) {
+    if(!this.neighborList.contains(n)) {
+      this.neighborList.add(n);
+      this.weights.put(n, dist);
+    }
+  }
   /**************
    * Returns this Vertex as a string
    ******************/
@@ -81,6 +95,10 @@ public class Vertex<T> {
    *****************/
   public double getDistance() {
     return this.distance;
+  }
+
+  public double getWeight(T end) {
+    return this.weights.get(end);
   }
 
   /****************

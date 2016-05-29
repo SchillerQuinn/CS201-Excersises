@@ -8,11 +8,11 @@ public interface WeightedGraphADT<T> extends BasicGraphADT<T> {
    * @return Whether the edge was successfully added
    ********************/
   public boolean addEdge(T beg, T end, double weight);
-
-  /******************
+/******************
    * Gets the weight of the edge between two vertices
    * @return the weight, or Double.POSITIVE_INFINITY if no edge exists
    ********************/
+  
   public double getEdgeWeight(T beg, T end);
 
 }
