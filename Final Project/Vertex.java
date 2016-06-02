@@ -82,10 +82,10 @@ public class Vertex<T> {
   /********************
    * Add a neighbor to the vertex
    *******************/
-  public void addNeighbor(Vertex<T> n, double dist) {
+  public void addNeighbor(Vertex<T> n, double weight) {
     if(!this.neighborList.contains(n)) {
       this.neighborList.add(n);
-      this.weights.put(n, dist);
+      this.weights.put(n, weight);
     }
   }
   /**************

@@ -135,14 +135,13 @@ public class MazeGraph {
 	 * a weighted graph
 	 *********************/
 	public static WeightedGraphADT<String> loadWeightedMaze(String fname) {
-		WeightedGraphADT<String> mymaze = new WeightedGraph<String>(); // change this to initalize your graph
+		WeightedGraph<String> myMaze = new WeightedGraph<String>(); // change this to initialize your graph	
+		//load the scanner in a try/catch loop to avoid FileNotFoundExceptions
 		Scanner s = null;	//initialize scanner
-		System.out.println("Loading Maze..."); //verbose output because this takes longer than the average opperation
+		System.out.println("Loading Maze..."); //verbose output because this takes longer than the average operation 
 		
-		//load the scanner in a try/catch loop to avoid FileNotFoundExceptions 
 		try { //put in try-catch block to avoid filenotfound exceptions
-			s = new Scanner(new File(fname));	//scan the list of words
-			
+			s = new Scanner(new File(fname));	//scan the list of words	
 		} 
 		catch(FileNotFoundException e) {			//if they don't have a maze
 			System.out.println("Unable to find maze file.");	//raise warning and exit
@@ -162,8 +161,9 @@ public class MazeGraph {
 		for (int r = 0; r < size ; r++){
 			for (int c = 0; c < size ; c++){
 				if((mazeArray[r][c]).charAt(2)!= '0'){
-					//mymaze.addVertexDist(mazeArray[r][c].substring(0,2),(int) mazeArray[r][c].charAt(3)); //don't add the number to the name of the vertex
-					//TODO, add weight thing for weighted graph adding
+					Vertex<String> cell = new Vertex<String>(mazeArray[r][c].substring(0,2),3);
+					//mymaze.addVertexDist(mazeArray[r][c].substring(0,2),(int) mazeArray[r][c].charAt(2)); //don't add the number to the name of the vertex
+					myMaze.addVertexObj(cell); //don't add the number to the name of the vertex
 				}
 			} 
 		}
@@ -171,13 +171,14 @@ public class MazeGraph {
 		for (int r = 0; r < size ; r++){	//loop through all rows
 			for (int c = 0; c < size ; c++){	//loop through all columns
 				if(mazeArray[r][c].charAt(2)!= '0'){
-					//Find edges by looking for all adjecent cells
+					//Find edges by looking for all adjacent cells
 					for (int yshift = -1; yshift < 2; yshift++){	//find above and below connections
 						for (int xshift = -1; xshift < 2; xshift++){	//find left and right connections
-							if (xshift != 0 || yshift != 0){ //as long as it is not trying to scan itself
-								try{	//to avoide out of bounds errors on edges
+							if (xshift == 0 ^ yshift == 0){ //as long as it is not trying to scan itself
+								try{	//to avoid out of bounds errors on edges
 									if(mazeArray[r+yshift][c+xshift].charAt(2)!='0'){	//if this is a valid neighbor
-										mymaze.addEdge(mazeArray[r][c].substring(0,2), mazeArray[r+yshift][c+xshift].substring(0,2)); //add an edge between these two points
+										myMaze.addEdge(mazeArray[r][c].substring(0,2), mazeArray[r+yshift][c+xshift].substring(0,2),
+											myMaze.getEdgeWeight(mazeArray[r][c].substring(0,2),mazeArray[r+yshift][c+xshift].substring(0,2)));
 									}
 								}
 								catch(IndexOutOfBoundsException e){
@@ -190,14 +191,14 @@ public class MazeGraph {
 			} 
 		}
 		//System.out.println(mymaze.toString());
-		return mymaze;
+		return myMaze;
 	}
 
 	/******** 
 	 * This method should use a breadth-first traversal to find a path through the 
 	 * maze, then return that path.
 	 ******/
-	public static List<Vertex<String>> solveMazeBreadthFirst(BasicGraphADT<String> maze, String startvert, String endvert) {
+	/*public static List<Vertex<String>> solveMazeBreadthFirst(BasicGraphADT<String> maze, String startvert, String endvert) {
 		// Use a breadth-first search to find a path through the maze
 		Vertex<String> start = maze.getVertex(startvert);
 		Vertex<String> end = maze.getVertex(endvertex);
@@ -238,6 +239,7 @@ public class MazeGraph {
 	 * This method should use a depth-first traversal to find a path through the 
 	 * maze, then return that path.
 	 ******/
+	/*
 	public static List<Vertex<String>> solveMazeDepthFirst(BasicGraphADT<String> maze, String startvert, String endvert) {
 		Vertex<String> start = maze.getVertex(startvert);
 		Vertex<String> end = maze.getVertex(endvertex);
@@ -271,11 +273,12 @@ public class MazeGraph {
 		}
 		return null;
 	}
-
+	*/
 	/******** 
 	 * This method should use Dijkstra's algorithm to find the shortest cost path through the 
 	 * maze, then return that path.
 	 ******/
+	/*
 	public static List<Vertex<String>> solveMaze(WeightedGraphADT<String> maze, String startvert, String endvert) {
 		// WE STILL NEED A MIN HEAP
 		//create empty priorityque minHeap
@@ -304,5 +307,5 @@ public class MazeGraph {
 			}
 		}
 		return null;
-	}
+	}*/
 }

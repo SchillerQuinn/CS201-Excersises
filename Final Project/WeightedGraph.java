@@ -4,6 +4,7 @@ public class WeightedGraph<T> implements WeightedGraphADT<T>{
 
 	HashMap<T, Vertex<T>> vertexes = new HashMap<T, Vertex<T>>();
 	int edges = 0;
+
 	
 	public ArrayList<Vertex<T>> toList(){
 		Collection<Vertex<T>> foo = vertexes.values();
@@ -35,9 +36,10 @@ public class WeightedGraph<T> implements WeightedGraphADT<T>{
 		}
 	}
 
-	public boolean addVertexDist(T vert, int dist){
+	//putting in vertex items
+	public boolean addVertexObj(Vertex<T> vert){
 		try{
-			vertexes.put(vert, new Vertex<T>(vert,dist));
+			vertexes.put(vert.getLabel(), vert);
 			return true;
 		} catch (Exception e){
 			return false;
@@ -134,7 +136,7 @@ public class WeightedGraph<T> implements WeightedGraphADT<T>{
 	********************/
 	public double getEdgeWeight(T beg, T end){
 		try{
-			return vertexes.get(beg).getWeight(end);
+			return vertexes.get(beg).getDistance()+vertexes.get(end).getDistance();
 		}
 		catch (Exception e){
 			return -1;
