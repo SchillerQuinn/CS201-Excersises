@@ -150,7 +150,39 @@ public class MazeGraph {
 	 ******/
 	public static List<Vertex<String>> solveMazeBreadthFirst(BasicGraphADT<String> maze, String startvert, String endvert) {
 		// Use a breadth-first search to find a path through the maze
-		return null;
+		Vertex<String> start = maze.getVertex(startvert);
+		Vertex<String> end = maze.getVertex(endvertex);
+		Vertex<String> current = new Vertex<String>();
+
+		LinkedList<Vertex<String>> queue = new LinkedList<Vertex<String>>();
+		LinkedList<Vertex<String>> visitedlist = new LinkedList<Vertex<String>>();
+		queue.enqueue(start);
+  		
+  		while(!queue.isEmpty()){
+  			current = queue.dequeue();
+    		visitedlist.add(current);
+
+    		if (current.equals(end)){
+    			return current.getPath();
+    		}
+    		else{
+    			LinkedList<String> currentNeighbors = current.getNeighbors();
+    			Vertex<String> check = currentNeighbors.first();
+    			
+    			for(int i = 0; i<currentNeighbors.size(); i++){
+    				if(!visitedlist.contains(check)&&!queue.contains(check)){
+    					check.setPath() = current.getPath().add(current);
+    					queue.enqueue(check);
+    				}
+    				check = check.getNext();
+    			} 
+
+    		}
+      
+  		}
+
+  		return null;
+
 	}
 
 	/******** 
@@ -158,7 +190,36 @@ public class MazeGraph {
 	 * maze, then return that path.
 	 ******/
 	public static List<Vertex<String>> solveMazeDepthFirst(BasicGraphADT<String> maze, String startvert, String endvert) {
-		// Use a depth-first search to find a path through the maze
+		Vertex<String> start = maze.getVertex(startvert);
+		Vertex<String> end = maze.getVertex(endvertex);
+		Vertex<String> current = new Vertex<String>();
+
+		Stack<Vertex<String>> vertStack = new Stack<Vertex<String>>();
+		LinkedList<Vertex<String>> visitedlist = new LinkedList<Vertex<String>>();
+
+		vertStack.push(start);
+
+		while(!vertStack.isEmpty()){
+			current = vertStack.pop();
+			if(!visitedlist.contains(current)){
+				visitedlist.add(current);
+				if(current.equals(end)){
+					return current.getPath();
+				}
+				else{
+					LinkedList<String> currentNeighbors = current.getNeighbors();
+    				Vertex<String> check = currentNeighbors.first();
+    			
+    				for(int i = 0; i<currentNeighbors.size(); i++){
+    					check.setPath() = current.getPath().add(current); //I added this, doesn't appear in pseudocode
+    					vertStack.push(check);
+    					check = check.getNext();
+					}
+				}
+
+			}
+
+		}
 		return null;
 	}
 
@@ -167,7 +228,32 @@ public class MazeGraph {
 	 * maze, then return that path.
 	 ******/
 	public static List<Vertex<String>> solveMaze(WeightedGraphADT<String> maze, String startvert, String endvert) {
-		// Use Dijkstra's algorithm to find a path through the maze
+		// WE STILL NEED A MIN HEAP
+		//create empty priorityque minHeap
+		Vertex<String> start = maze.getVertex(startvert);
+		Vertex<String> end = maze.getVertex(endvertex);
+		Vertex<String> current = new Vertex<String>();
+
+		minHeap.add(start);
+
+		while(!minHeap.isEmpty()){
+			current = minHeap.getMin();
+
+			if(current.equals(end)){
+				return current.getPath();
+			}
+			else{
+				LinkedList<String> currentNeighbors = current.getNeighbors();
+    			Vertex<String> check = currentNeighbors.first();
+    			
+    			for(int i = 0; i<currentNeighbors.size(); i++){
+    				check.setDistance(current.getDistance() + maze.getEdgeWeight(current,check));
+    				check.setPath() = current.getPath().add(current);
+    				minHeap.add(check);
+    				check = check.getNext();
+    			} 
+			}
+		}
 		return null;
 	}
 }
