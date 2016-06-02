@@ -1,0 +1,10 @@
+9 9
+aa0 ab8 ac0 ad0 ae0 af0 ag0 ah0 ai0 
+aj0 ak9 al8 am4 an4 ao7 ap6 aq8 ar0 
+as0 at2 au0 av3 aw0 ax7 ay0 az8 ba0 
+bb0 bc2 bd2 be3 bf3 bg7 bh0 bi8 bj0 
+bk0 bl8 bm0 bn0 bo0 bp9 bq0 br5 bs0 
+bt0 bu9 bv0 bw6 bx6 by9 bz0 ca5 cb0 
+cc0 cd8 ce0 cf1 cg0 ch0 ci0 cj8 ck0 
+cl0 cm7 cn0 co1 cp1 cq7 cr8 cs8 ct0 
+cu0 cv0 cw0 cx0 cy0 cz0 da0 db1 dc0 

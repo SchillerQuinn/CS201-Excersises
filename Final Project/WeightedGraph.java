@@ -1,6 +1,6 @@
 import java.util.HashMap;
 
-public class weightedMaze<T> implements WeightedGraphADT<T>{
+public class WeightedGraph<T> implements WeightedGraphADT<T>{
 
 	HashMap<T, Vertex<T>> vertexes = new HashMap<T, Vertex<T>>();
 	int edges = 0;

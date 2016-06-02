@@ -1,0 +1,8 @@
+7 7
+aa0 ab4 ac0 ad0 ae0 af0 ag0 
+ah0 ai3 aj3 ak7 al8 am1 an0 
+ao0 ap0 aq0 ar7 as0 at7 au0 
+av0 aw2 ax3 ay7 az0 ba6 bb0 
+bc0 bd8 be0 bf3 bg0 bh1 bi0 
+bj0 bk7 bl0 bm3 bn4 bo1 bp0 
+bq0 br0 bs0 bt0 bu0 bv1 bw0 

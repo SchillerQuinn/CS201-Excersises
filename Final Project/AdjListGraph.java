@@ -9,8 +9,11 @@ public class AdjListGraph<T> implements BasicGraphADT<T>{
 	* Give the list of vertexes in the graph
 	* @return a collection of vertex values
 	********************/
-	public Collection<Vertex<T>> toList(){
-		return vertexes.values();
+	public ArrayList<Vertex<T>> toList(){
+		Collection<Vertex<T>> foo = vertexes.values();
+		ArrayList<Vertex<T>> bar = new ArrayList<Vertex<T>>();
+		bar.addAll(foo);
+		return bar;
 	}
 
 
@@ -35,7 +38,18 @@ public class AdjListGraph<T> implements BasicGraphADT<T>{
 		}
 	}
 
-
+	public String toString(){
+		ArrayList<Vertex<T>> vertexList = this.toList();
+		StringBuilder output = new StringBuilder();
+		while (!vertexList.isEmpty()){
+			Vertex<T> currentVertex = vertexList.remove(vertexList.size()-1); //remove the last element to save time so it doesn't have to shift anything
+			output.append(currentVertex.getLabel());	//write the label of the vertex
+			output.append(" --> ");
+			output.append(currentVertex.getNeighbors().toString());	//write the neighbors of the vertex
+			output.append("\n");	//new line
+		}
+		return output.toString();
+	}
 	/******************
 	* Add an edge to this graph between the two given labels
 	* @return Whether the edge was successfully added
