@@ -1,9 +1,27 @@
-import java.util.HashMap;
+import java.util.*;
 
 public class WeightedGraph<T> implements WeightedGraphADT<T>{
 
 	HashMap<T, Vertex<T>> vertexes = new HashMap<T, Vertex<T>>();
 	int edges = 0;
+	
+	public ArrayList<Vertex<T>> toList(){
+		Collection<Vertex<T>> foo = vertexes.values();
+		ArrayList<Vertex<T>> bar = new ArrayList<Vertex<T>>();
+		bar.addAll(foo);
+		return bar;
+	}
+
+
+	/*******************
+	* Get the vertex object at the lable
+	* @return the vertex object
+	********************/
+	public Vertex<T> getVertex(T vert){
+		return vertexes.get(vert);
+	}
+
+
 	/*******************
 	* Add a vertex to this graph with given label
 	* @return Whether the vertex was successfully added
@@ -11,6 +29,15 @@ public class WeightedGraph<T> implements WeightedGraphADT<T>{
 	public boolean addVertex(T vert){
 		try{
 			vertexes.put(vert, new Vertex<T>(vert));
+			return true;
+		} catch (Exception e){
+			return false;
+		}
+	}
+
+	public boolean addVertexDist(T vert, int dist){
+		try{
+			vertexes.put(vert, new Vertex<T>(vert,dist));
 			return true;
 		} catch (Exception e){
 			return false;

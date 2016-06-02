@@ -38,6 +38,16 @@ public class Vertex<T> {
     this.distance = Double.POSITIVE_INFINITY;
   }
 
+  /****************
+   * Constructor for Vertex class with distance, pass it the label
+   ************/
+  public Vertex(T lb, int dist) {
+    this.label = lb;
+    this.path = new ArrayList<Vertex<T>>();
+    this.neighborList = new ArrayList<Vertex<T>>();
+    this.distance = (double) dist;
+  }
+
   /***********
    * Returns the label used for this vertex
    ***********/

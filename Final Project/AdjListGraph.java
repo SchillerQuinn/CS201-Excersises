@@ -38,6 +38,7 @@ public class AdjListGraph<T> implements BasicGraphADT<T>{
 		}
 	}
 
+
 	public String toString(){
 		ArrayList<Vertex<T>> vertexList = this.toList();
 		StringBuilder output = new StringBuilder();

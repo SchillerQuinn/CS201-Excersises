@@ -73,7 +73,6 @@ public class MazeGraph {
 	 *********************/
 	public static BasicGraphADT<String> loadMaze(String fname) {
 		BasicGraphADT<String> mymaze = new AdjListGraph<String>(); 
-		// change this to initalize your graph from the given file
 		Scanner s = null;	//initialize scanner
 		System.out.println("Loading Maze..."); //verbose output because this takes longer than the average opperation
 		
@@ -112,7 +111,7 @@ public class MazeGraph {
 					//Find edges by looking for all adjecent cells
 					for (int yshift = -1; yshift < 2; yshift++){	//find above and below connections
 						for (int xshift = -1; xshift < 2; xshift++){	//find left and right connections
-							if (xshift != 0 || yshift != 0){ //as long as it is not trying to scan itself
+							if (xshift == 0 ^ yshift == 0){ //scan all directly left right above and below combinations but not itsself 
 								try{	//to avoide out of bounds errors on edges
 									if(mazeArray[r+yshift][c+xshift].charAt(2)!='0'){	//if this is a valid neighbor
 										mymaze.addEdge(mazeArray[r][c].substring(0,2), mazeArray[r+yshift][c+xshift].substring(0,2)); //add an edge between these two points
@@ -137,10 +136,60 @@ public class MazeGraph {
 	 *********************/
 	public static WeightedGraphADT<String> loadWeightedMaze(String fname) {
 		WeightedGraphADT<String> mymaze = new WeightedGraph<String>(); // change this to initalize your graph
+		Scanner s = null;	//initialize scanner
+		System.out.println("Loading Maze..."); //verbose output because this takes longer than the average opperation
 		
+		//load the scanner in a try/catch loop to avoid FileNotFoundExceptions 
+		try { //put in try-catch block to avoid filenotfound exceptions
+			s = new Scanner(new File(fname));	//scan the list of words
+			
+		} 
+		catch(FileNotFoundException e) {			//if they don't have a maze
+			System.out.println("Unable to find maze file.");	//raise warning and exit
+			System.exit(0);
+		}
 		
 
-		// build your maze based on the given file
+		int size =  Integer.parseInt(s.next());	//find the size of the maze (held in the first word of the maze)
+		String firstLineRemover = s.nextLine(); //move past the first line
+		String[][] mazeArray = new String[size][size];	//create a 2d array to hold the values of the maze
+		//copy the maze file into the array
+		for (int r = 0; r < size ; r++){
+			mazeArray[r] = s.nextLine().split(" ", size);	//convert lines to arrays by splitting at the spaces
+		}
+
+		//load vertexes into graph 
+		for (int r = 0; r < size ; r++){
+			for (int c = 0; c < size ; c++){
+				if((mazeArray[r][c]).charAt(2)!= '0'){
+					//mymaze.addVertexDist(mazeArray[r][c].substring(0,2),(int) mazeArray[r][c].charAt(3)); //don't add the number to the name of the vertex
+					//TODO, add weight thing for weighted graph adding
+				}
+			} 
+		}
+		//add edges
+		for (int r = 0; r < size ; r++){	//loop through all rows
+			for (int c = 0; c < size ; c++){	//loop through all columns
+				if(mazeArray[r][c].charAt(2)!= '0'){
+					//Find edges by looking for all adjecent cells
+					for (int yshift = -1; yshift < 2; yshift++){	//find above and below connections
+						for (int xshift = -1; xshift < 2; xshift++){	//find left and right connections
+							if (xshift != 0 || yshift != 0){ //as long as it is not trying to scan itself
+								try{	//to avoide out of bounds errors on edges
+									if(mazeArray[r+yshift][c+xshift].charAt(2)!='0'){	//if this is a valid neighbor
+										mymaze.addEdge(mazeArray[r][c].substring(0,2), mazeArray[r+yshift][c+xshift].substring(0,2)); //add an edge between these two points
+									}
+								}
+								catch(IndexOutOfBoundsException e){
+									//this means that it is looking out of bounds and therefore there isn't a cell there to connect to so do nothing
+								}
+							}
+						}
+					}
+				}
+			} 
+		}
+		//System.out.println(mymaze.toString());
 		return mymaze;
 	}
 
