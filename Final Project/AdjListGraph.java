@@ -125,7 +125,7 @@ public class AdjListGraph<T> implements BasicGraphADT<T>{
 	********************/
 	public double getEdgeWeight(T beg, T end){
 		try{
-			return vertexes.get(beg).getWeight(end);
+			return vertexes.get(beg).getWeight(vertexes.get(end));
 		}
 		catch (Exception e){
 			return -1;
