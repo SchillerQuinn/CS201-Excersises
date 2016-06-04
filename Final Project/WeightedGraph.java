@@ -142,4 +142,24 @@ public class WeightedGraph<T> implements WeightedGraphADT<T>{
 			return -1;
 		}
 	}
+
+	public String toString(){
+		ArrayList<Vertex<T>> vertexList = this.toList();
+		StringBuilder output = new StringBuilder();
+		while (!vertexList.isEmpty()){
+			Vertex<T> currentVertex = vertexList.remove(vertexList.size()-1); //remove the last element to save time so it doesn't have to shift anything
+			output.append(currentVertex.getLabel());	//write the label of the vertex
+			ArrayList<Vertex<T>> neighbors = new ArrayList<Vertex<T>>();
+			neighbors.addAll(currentVertex.getNeighbors());
+			for (int i =0; i < neighbors.size(); i++){
+				output.append("\t");
+				output.append(currentVertex.getWeight(neighbors.get(i)));
+				output.append(" --> ");
+				output.append(neighbors.get(i).getLabel());
+				output.append("\n");	
+			}
+				//new line
+		}
+		return output.toString();
+	}
 }
