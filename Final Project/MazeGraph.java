@@ -116,8 +116,7 @@ public class MazeGraph {
 				}
 			} 
 		}
-		System.out.println(mymaze.toString());
-		return mymaze;
+	return mymaze;
 	}
 
 	/*********************
@@ -203,6 +202,7 @@ public class MazeGraph {
 			if (current.equals(end)){	//the search is over
 				return current.getPath();
 			}
+			if (!visitedlist.contains(current)|| !queue.contains(current)){	//dont look at vertexes that have been looked at already
 				visitedlist.add(current);
 				currentNeighbors.addAll(current.getNeighbors());
 				do{
@@ -212,6 +212,7 @@ public class MazeGraph {
 					System.out.print(visitedlist.contains(check));
 					System.out.println("\t");
 					System.out.println(queue.contains(check));
+					if(!(visitedlist.contains(check) || queue.contains(check))|| !current.getPath().contains(check)){
 						System.out.print(check.getLabel());
 						System.out.print("\t");
 						List<Vertex<String>> foo = current.getPath();
