@@ -34,12 +34,9 @@ public class MazeGraph {
 			startvertex = args[1];
 			endvertex = args[2];
 		}
-		
-		//TODO: REMOVE THIS PART
-		BasicGraphADT<String> gmaze = loadWeightedMaze(fname);
 
-		/*if(!weighted) {
-			BasicGraphADT<String> gmaze = loadMaze(fname);
+		if(!weighted) {
+			AdjListGraph<String> gmaze = loadMaze(fname);
 			List<Vertex<String>> path1 = solveMazeDepthFirst(gmaze, startvertex, endvertex);
 			System.out.println("Solution using DFS:");
 			for(int i = 0; path1 != null && i < path1.size(); i++) {
@@ -47,28 +44,28 @@ public class MazeGraph {
 			}
 
 			// reload maze in case the graph needs to be reset
-			BasicGraphADT<String> gmaze2 = loadMaze(fname);
+			AdjListGraph<String> gmaze2 = loadMaze(fname);
 			List<Vertex<String>> path2 = solveMazeBreadthFirst(gmaze2, startvertex, endvertex);
 			System.out.println("Solution using BFS:");
 			for(int i = 0; path2 != null && i < path2.size(); i++) {
 				System.out.println(path2.get(i).getLabel());
 			}
 		} else {
-			WeightedGraphADT<String> gmaze = loadWeightedMaze(fname);
+			WeightedGraph<String> gmaze = loadWeightedMaze(fname);
 			List<Vertex<String>> path3 = solveMaze(gmaze, startvertex, endvertex);
 			System.out.println("Solution with least weight:");
 			for(int i = 0; i < path3.size(); i++) {
 				System.out.println(path3.get(i));
 			}
 		}
-		*/
+		
 	}
 
 	/*********************
 	 * This method loads a maze from a given file with name fname
 	 *********************/
-	public static BasicGraphADT<String> loadMaze(String fname) {
-		BasicGraphADT<String> mymaze = new AdjListGraph<String>(); 
+	public static AdjListGraph<String> loadMaze(String fname) {
+		AdjListGraph<String> mymaze = new AdjListGraph<String>(); 
 		Scanner s = null;	//initialize scanner
 		System.out.println("Loading Maze..."); //verbose output because this takes longer than the average opperation
 		
@@ -130,7 +127,7 @@ public class MazeGraph {
 	 * This method loads a maze from a given file with name fname as
 	 * a weighted graph
 	 *********************/
-	public static WeightedGraphADT<String> loadWeightedMaze(String fname) {
+	public static WeightedGraph<String> loadWeightedMaze(String fname) {
 		WeightedGraph<String> myMaze = new WeightedGraph<String>(); // change this to initialize your graph	
 		//load the scanner in a try/catch loop to avoid FileNotFoundExceptions
 		Scanner s = null;	//initialize scanner
