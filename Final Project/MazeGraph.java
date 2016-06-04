@@ -1,10 +1,4 @@
-import java.util.Scanner;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
-import java.util.PriorityQueue;
+import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -42,7 +36,7 @@ public class MazeGraph {
 		}
 		
 		//TODO: REMOVE THIS PART
-		BasicGraphADT<String> gmaze = loadMaze(fname);
+		BasicGraphADT<String> gmaze = loadWeightedMaze(fname);
 
 		/*if(!weighted) {
 			BasicGraphADT<String> gmaze = loadMaze(fname);
@@ -163,8 +157,7 @@ public class MazeGraph {
 		for (int r = 0; r < size ; r++){
 			for (int c = 0; c < size ; c++){
 				if((mazeArray[r][c]).charAt(2)!= '0'){
-					Vertex<String> cell = new Vertex<String>(mazeArray[r][c].substring(0,2),3);
-					//mymaze.addVertexDist(mazeArray[r][c].substring(0,2),(int) mazeArray[r][c].charAt(2)); //don't add the number to the name of the vertex
+					Vertex<String> cell = new Vertex<String>(mazeArray[r][c].substring(0,2),Character.getNumericValue(mazeArray[r][c].charAt(2)));
 					myMaze.addVertexObj(cell); //don't add the number to the name of the vertex
 				}
 			} 
@@ -192,7 +185,7 @@ public class MazeGraph {
 				}
 			} 
 		}
-		//System.out.println(mymaze.toString());
+		System.out.println(myMaze.toString());
 		return myMaze;
 	}
 
@@ -200,44 +193,37 @@ public class MazeGraph {
 	 * This method should use a breadth-first traversal to find a path through the 
 	 * maze, then return that path.
 	 ******/
-	/******** 
-	 * This method should use a breadth-first traversal to find a path through the 
-	 * maze, then return that path.
-	 ******/
-		public static List<Vertex<String>> solveMazeBreadthFirst(BasicGraphADT<String> maze, String startvert, String endvert) {
-		
-		//Creating vertexes we will work with for solving the maze
-		Vertex<String> start = ((AdjListGraph<String>)(maze)).getVertex(startvert); //the beginning vertex
-		Vertex<String> end = ((AdjListGraph<String>)(maze)).getVertex(endvert); //the ending vertex
-		Vertex<String> current = start; //the current vertex we are analyzing 
+	public static List<Vertex<String>> solveMazeBreadthFirst(AdjListGraph<String> maze, String startvert, String endvert) {
+		// Use a breadth-first search to find a path through the maze
 
-		//Creating two lists to store the vertexes we need to get to and the ones we have visited
-		LinkedList<Vertex<String>> queue = new LinkedList<Vertex<String>>(); //List of vertexes we have yet to explore
-		LinkedList<Vertex<String>> visitedlist = new LinkedList<Vertex<String>>(); //List of vertexes we have gotten to
-		
-		queue.add(start);//Adding our first vertex to kick this off
-  		
-  		while(!queue.isEmpty()){ //while we still have things to explore
-  			current = queue.remove(); //removes the vertex we are now going to dig into
-    		visitedlist.add(current); //add this vertex to the list of things we have visited
+		Vertex<String> start = maze.getVertex(startvert);
+		Vertex<String> end = maze.getVertex(endvert);
+		Vertex<String> current = start;
 
-    		if (current.equals(end)){ //if we have reached the end, then return the path!
+		LinkedList<Vertex<String>> queue = new LinkedList<Vertex<String>>();
+		LinkedList<Vertex<String>> visitedlist = new LinkedList<Vertex<String>>();
+		queue.add(start);
+
+		LinkedList<Vertex<String>> currentNeighbors = new LinkedList<Vertex<String>>();
+
+
+  		while(!queue.isEmpty()){
+  			current = queue.poll();
+    		visitedlist.add(current);
+
+    		if (current.equals(end)){	//the search is over
     			return current.getPath();
     		}
-    		else{ //otherwise...
-    			LinkedList<Vertex<String>> currentNeighbors = (LinkedList<Vertex<String>>)(current.getNeighbors()); //find all the neighbors of current
+    		else{	
+    			currentNeighbors.addAll(current.getNeighbors());
     			
-    			for(int i = 0; i<currentNeighbors.size(); i++){ //cycles through all the neighbors one at a time
-    				Vertex<String> check = currentNeighbors.get(i); //takes one neighbor
-
-    				if(!visitedlist.contains(check)&&!queue.contains(check)){ //if this neighbor is not in the visited list and isn't in the to-be-explored list
-    					
-    					//sets current's path as the current's path + current 
-    					LinkedList<Vertex<String>> newPath = (LinkedList<Vertex<String>>) (current.getPath());
-    					newPath.add(current);
-    					check.setPath(newPath);
-    					
-    					//adds this neighbor to the end of to-be-explored list
+    			
+    			while(!currentNeighbors.isEmpty()){
+    				Vertex<String> check = currentNeighbors.poll();
+    				if(!visitedlist.contains(check) && !queue.contains(check)){
+    					List<Vertex<String>> foo = current.getPath();
+    					foo.add(current); 
+    					check.setPath(foo);
     					queue.add(check);
     				}
     			} 
@@ -245,6 +231,7 @@ public class MazeGraph {
     		}
       
   		}
+
 
   		return null;// if we cannot find the end, then we will return null
 
@@ -254,47 +241,30 @@ public class MazeGraph {
 	 * This method should use a depth-first traversal to find a path through the 
 	 * maze, then return that path.
 	 ******/
-	public static List<Vertex<String>> solveMazeDepthFirst(BasicGraphADT<String> maze, String startvert, String endvert) {
-		
-		//Creating vertexes we will work with for solving the maze
-		Vertex<String> start = ((AdjListGraph<String>)(maze)).getVertex(startvert);  //the beginning vertex
-		Vertex<String> end = ((AdjListGraph<String>)(maze)).getVertex(endvert);  //the ending vertex
+	
+	public static List<Vertex<String>> solveMazeDepthFirst(AdjListGraph<String> maze, String startvert, String endvert) {
+		Vertex<String> start = maze.getVertex(startvert);
+		Vertex<String> end = maze.getVertex(endvert);
 		Vertex<String> current = start;
 
-		//Creating two lists to store the vertexes we need to get to and the ones we have visited
-		Stack<Vertex<String>> vertStack = new Stack<Vertex<String>>(); //Stack of vertexes we have yet to explore
-		LinkedList<Vertex<String>> visitedlist = new LinkedList<Vertex<String>>(); //List of vertexes we have gotten to
-
+		ArrayDeque<Vertex<String>> vertStack = new ArrayDeque<Vertex<String>>();
+		LinkedList<Vertex<String>> visitedlist = new LinkedList<Vertex<String>>();
 		vertStack.push(start);//Adding our first vertex to kick this off
-
-		while(!vertStack.isEmpty()){//while we still have things to explore
-			current = vertStack.pop(); //removes the vertex we are now going to dig into
-
-			if(!visitedlist.contains(current)){ //if current isn't already in the visited list, we add it
-				visitedlist.add(current); 
-				
-				if(current.equals(end)){ //if we have reached the end, then return the path!
+		while(!vertStack.isEmpty()){
+			current = vertStack.pop();
+			if(!visitedlist.contains(current)){
+				visitedlist.add(current);
+				if(current.getLabel().equals(end)){
 					return current.getPath();
 				}
-				else{ //otherwise... 
-					LinkedList<Vertex<String>> currentNeighbors = (LinkedList<Vertex<String>>)(current.getNeighbors()); //find all the neighbors of current
-    			
-    				for(int i = 0; i<currentNeighbors.size(); i++){ //cycles through all the neighbors one at a time
-    					Vertex<String> check = currentNeighbors.get(i); //takes one neighbor
-    					
-    					/**************************************************
-    					* I added this, doesn't appear in pseudocode. 
-    					* I am pretty sure we need this, but not certain
-    					***************************************************/
-    					
-    					//sets current's path as the current's path + current 
-    					LinkedList<Vertex<String>> newPath = (LinkedList<Vertex<String>>) (current.getPath());
-    					newPath.add(current);
-    					check.setPath(newPath);
-    					
-    					//adds this neighbor to the top of to-be-explored list
+				else{
+					LinkedList<Vertex<String>> currentNeighbors = current.getNeighbors();
+    				while(!currentNeighbors.isEmpty()){
+    					Vertex<String> check = currentNeighbors.poll();
+    					List<Vertex<String>> foo = current.getPath();
+    					foo.add(current); 
+    					check.setPath(foo);
     					vertStack.push(check);
-    					
 					}
 				}
 
@@ -303,53 +273,36 @@ public class MazeGraph {
 		}
 		return null; // if we cannot find the end, then we will return null
 	}
-
 	/******** 
 	 * This method should use Dijkstra's algorithm to find the shortest cost path through the 
 	 * maze, then return that path.
 	 ******/
-	public static List<Vertex<String>> solveMaze(WeightedGraphADT<String> maze, String startvert, String endvert) {
-		
-		//Creating vertexes we will work with for solving the maze
-		Vertex<String> start = ((AdjListGraph<String>)(maze)).getVertex(startvert); //the beginning vertex
-		Vertex<String> end = ((AdjListGraph<String>)(maze)).getVertex(endvert);  //the ending vertex
-		Vertex<String> current = start; //the current vertex we are analyzing 
+	
+	public static List<Vertex<String>> solveMaze(WeightedGraph<String> maze, String startvert, String endvert) {
+		PriorityQueue<Vertex<String>> minHeap = new PriorityQueue<Vertex<String>>();
+		Vertex<String> start = maze.getVertex(startvert);
+		Vertex<String> end = maze.getVertex(endvert);
+		Vertex<String> current = start;
+		while(!minHeap.isEmpty()){
+			current = minHeap.poll();
 
-		/**************************
-		* STILL NEED COMPARATOR --> 
-		* do it by distance? 
-		****************************/
-
-		//Creating a min heap to organize the weights
-		PriorityQueue<Vertex<String>> minHeap = new PriorityQueue<Vertex<String>>(); 
-
-		minHeap.add(start); //Adding our first vertex to kick this off
-
-		while(!minHeap.isEmpty()){ //while we still have things to explore
-			current = minHeap.peek(); //sets our current to be the vertex at the top of the heap
-
-			if(current.equals(end)){ //if we have reached the end, then return the path!
+			if(current.equals(end)) {
 				return current.getPath();
 			}
-			else{ //otherwise...
-				LinkedList<Vertex<String>> currentNeighbors = (LinkedList<Vertex<String>>)(current.getNeighbors());//find all the neighbors of current
+			else{
+				LinkedList<Vertex<String>> currentNeighbors = current.getNeighbors();
+   
     			
-    			for(int i = 0; i<currentNeighbors.size(); i++){  //cycles through all the neighbors one at a time
-    				Vertex<String> check = currentNeighbors.get(i); //takes one neighbor
-
-    				check.setDistance(current.getDistance() + maze.getEdgeWeight(current.getLabel(),check.getLabel())); //sets the distance of check as the the distance of the previous node + distance between it and the previous node
-    				
-    				//set it's path as the current's path + current 
-    				LinkedList<Vertex<String>> newPath = (LinkedList<Vertex<String>>) (current.getPath());
-    				newPath.add(current);
-    				check.setPath(newPath);
-    				
-    				//adds check to the heap
+    			while(!currentNeighbors.isEmpty()){
+    				Vertex<String> check = currentNeighbors.poll();
+    				check.setDistance(current.getDistance() + maze.getEdgeWeight(current.getLabel(), check.getLabel()));
+    				List<Vertex<String>> foo = current.getPath();
+    				foo.add(current); 
+    				check.setPath(foo);
     				minHeap.add(check);
-    				
     			} 
 			}
 		}
-		return null; // if we cannot find the end, then we will return null
+		return null;
 	}
 }
