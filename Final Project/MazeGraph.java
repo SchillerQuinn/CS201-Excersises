@@ -66,9 +66,7 @@ public class MazeGraph {
 	 *********************/
 	public static AdjListGraph<String> loadMaze(String fname) {
 		AdjListGraph<String> mymaze = new AdjListGraph<String>(); 
-		Scanner s = null;	//initialize scanner
-		System.out.println("Loading Maze..."); //verbose output because this takes longer than the average opperation
-		
+		Scanner s = null;	//initialize scanner		
 		//load the scanner in a try/catch loop to avoid FileNotFoundExceptions 
 		try { //put in try-catch block to avoid filenotfound exceptions
 			s = new Scanner(new File(fname));	//scan the list of words
@@ -93,7 +91,6 @@ public class MazeGraph {
 			for (int c = 0; c < size ; c++){
 				if((mazeArray[r][c]).charAt(2)!= '0'){
 					mymaze.addVertex(mazeArray[r][c].substring(0,2)); //don't add the number to the name of the vertex
-					//TODO, add weight thing for weighted graph adding
 				}
 			} 
 		}
@@ -130,9 +127,7 @@ public class MazeGraph {
 	public static WeightedGraph<String> loadWeightedMaze(String fname) {
 		WeightedGraph<String> myMaze = new WeightedGraph<String>(); // change this to initialize your graph	
 		//load the scanner in a try/catch loop to avoid FileNotFoundExceptions
-		Scanner s = null;	//initialize scanner
-		System.out.println("Loading Maze..."); //verbose output because this takes longer than the average operation 
-		
+		Scanner s = null;	//initialize scanner		
 		try { //put in try-catch block to avoid filenotfound exceptions
 			s = new Scanner(new File(fname));	//scan the list of words	
 		} 
@@ -182,9 +177,9 @@ public class MazeGraph {
 				}
 			} 
 		}
-		System.out.println(myMaze.toString());
-		return myMaze;
+	return myMaze;
 	}
+
 
 	/******** 
 	 * This method should use a breadth-first traversal to find a path through the 
@@ -199,39 +194,38 @@ public class MazeGraph {
 
 		LinkedList<Vertex<String>> queue = new LinkedList<Vertex<String>>();
 		LinkedList<Vertex<String>> visitedlist = new LinkedList<Vertex<String>>();
-		queue.add(start);
-
+		queue.add(start);	//add the starting vertex to the queue
 		LinkedList<Vertex<String>> currentNeighbors = new LinkedList<Vertex<String>>();
-
-
-  		while(!queue.isEmpty()){
-  			current = queue.poll();
-    		visitedlist.add(current);
-
-    		if (current.equals(end)){	//the search is over
-    			return current.getPath();
-    		}
-    		else{	
-    			currentNeighbors.addAll(current.getNeighbors());
-    			
-    			
-    			while(!currentNeighbors.isEmpty()){
-    				Vertex<String> check = currentNeighbors.poll();
-    				if(!visitedlist.contains(check) && !queue.contains(check)){
-    					List<Vertex<String>> foo = current.getPath();
-    					foo.add(current); 
-    					check.setPath(foo);
-    					queue.add(check);
-    				}
-    			} 
-
-    		}
-      
-  		}
-
-
-  		return null;// if we cannot find the end, then we will return null
-
+		while(!queue.isEmpty()){
+			current = queue.poll();	//get the first vertex from the queue
+				//add the current vertex to the list of visited vertexes
+			System.out.println(visitedlist);
+			if (current.equals(end)){	//the search is over
+				return current.getPath();
+			}
+				visitedlist.add(current);
+				currentNeighbors.addAll(current.getNeighbors());
+				do{
+					Vertex<String> check = currentNeighbors.poll();
+					System.out.println(check);
+					System.out.println("-----");
+					System.out.print(visitedlist.contains(check));
+					System.out.println("\t");
+					System.out.println(queue.contains(check));
+						System.out.print(check.getLabel());
+						System.out.print("\t");
+						List<Vertex<String>> foo = current.getPath();
+						foo.add(current); 
+						check.setPath(foo);
+						System.out.println(check.getPath());
+						queue.add(check);
+					}
+					System.out.println("\n");
+				} while (!currentNeighbors.isEmpty());
+			}
+			
+		}
+	return null;	// if we cannot find the end, then we will return null
 	}
 
 	/******** 
@@ -249,26 +243,25 @@ public class MazeGraph {
 		vertStack.push(start);//Adding our first vertex to kick this off
 		while(!vertStack.isEmpty()){
 			current = vertStack.pop();
-			if(!visitedlist.contains(current)){
+			if(!visitedlist.contains(current)){//only go to unvisted vertexes
 				visitedlist.add(current);
 				if(current.getLabel().equals(end)){
 					return current.getPath();
 				}
 				else{
 					LinkedList<Vertex<String>> currentNeighbors = current.getNeighbors();
-    				while(!currentNeighbors.isEmpty()){
-    					Vertex<String> check = currentNeighbors.poll();
-    					List<Vertex<String>> foo = current.getPath();
-    					foo.add(current); 
-    					check.setPath(foo);
-    					vertStack.push(check);
+					while(!currentNeighbors.isEmpty()){
+						Vertex<String> check = currentNeighbors.poll();
+						List<Vertex<String>> foo = current.getPath();
+						foo.add(current); 
+						check.setPath(foo);
+						vertStack.push(check);
 					}
 				}
-
 			}
 
 		}
-		return null; // if we cannot find the end, then we will return null
+	return null; // if we cannot find the end, then we will return null
 	}
 	/******** 
 	 * This method should use Dijkstra's algorithm to find the shortest cost path through the 
@@ -288,18 +281,16 @@ public class MazeGraph {
 			}
 			else{
 				LinkedList<Vertex<String>> currentNeighbors = current.getNeighbors();
-   
-    			
-    			while(!currentNeighbors.isEmpty()){
-    				Vertex<String> check = currentNeighbors.poll();
-    				check.setDistance(current.getDistance() + maze.getEdgeWeight(current.getLabel(), check.getLabel()));
-    				List<Vertex<String>> foo = current.getPath();
-    				foo.add(current); 
-    				check.setPath(foo);
-    				minHeap.add(check);
-    			} 
+				while(!currentNeighbors.isEmpty()){
+					Vertex<String> check = currentNeighbors.poll();
+					check.setDistance(current.getDistance() + maze.getEdgeWeight(current.getLabel(), check.getLabel()));
+					List<Vertex<String>> foo = current.getPath();
+					foo.add(current); 
+					check.setPath(foo);
+					minHeap.add(check);
+				} 
 			}
 		}
-		return null;
+	return null;
 	}
 }
