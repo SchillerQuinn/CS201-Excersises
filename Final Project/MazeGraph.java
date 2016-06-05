@@ -189,39 +189,45 @@ public class MazeGraph {
 
 		Vertex<String> start = maze.getVertex(startvert);
 		Vertex<String> end = maze.getVertex(endvert);
-		Vertex<String> current = start;
+		Vertex<String> current = new Vertex<String>(null);
 
 		LinkedList<Vertex<String>> queue = new LinkedList<Vertex<String>>();
 		LinkedList<Vertex<String>> visitedlist = new LinkedList<Vertex<String>>();
 		queue.add(start);	//add the starting vertex to the queue
 		LinkedList<Vertex<String>> currentNeighbors = new LinkedList<Vertex<String>>();
 		while(!queue.isEmpty()){
+			System.out.println(queue);
 			current = queue.poll();	//get the first vertex from the queue
 				//add the current vertex to the list of visited vertexes
+			//System.out.println(current);
 			System.out.println(visitedlist);
+			System.out.println("-----");
 			if (current.equals(end)){	//the search is over
 				return current.getPath();
 			}
-			if (!visitedlist.contains(current)|| !queue.contains(current)){	//dont look at vertexes that have been looked at already
+			if (!visitedlist.contains(current) && !queue.contains(current)){	//don't look at vertexes that have been looked at already
 				visitedlist.add(current);
 				currentNeighbors.addAll(current.getNeighbors());
+				List<Vertex<String>> foo = current.getPath();
+				foo.add(current); 
 				do{
 					Vertex<String> check = currentNeighbors.poll();
-					System.out.println(check);
-					System.out.println("-----");
-					System.out.print(visitedlist.contains(check));
-					System.out.println("\t");
-					System.out.println(queue.contains(check));
-					if(!(visitedlist.contains(check) || queue.contains(check))|| !current.getPath().contains(check)){
-						System.out.print(check.getLabel());
-						System.out.print("\t");
-						List<Vertex<String>> foo = current.getPath();
-						foo.add(current); 
+					//System.out.println(check);
+					//System.out.println("-----");
+					//System.out.print(visitedlist.contains(check));
+					//System.out.println("\t");
+					//System.out.println(queue.contains(check));
+					if(!visitedlist.contains(check) && !queue.contains(check) && !current.getPath().contains(check)) {
+						//System.out.print(check.getLabel());
+						//System.out.print("\t");
 						check.setPath(foo);
-						System.out.println(check.getPath());
+						if (check.equals(end)){
+							return check.getPath();
+						}
+						//System.out.println(check.getPath());
 						queue.add(check);
 					}
-					System.out.println("\n");
+					//System.out.println("\n");
 				} while (!currentNeighbors.isEmpty());
 			}
 			
