@@ -50,14 +50,16 @@ public class MazeGraph {
 			for(int i = 0; path2 != null && i < path2.size(); i++) {
 				System.out.println(path2.get(i).getLabel());
 			}
-		} else {
+		}/*else {
+			
 			WeightedGraph<String> gmaze = loadWeightedMaze(fname);
 			List<Vertex<String>> path3 = solveMaze(gmaze, startvertex, endvertex);
 			System.out.println("Solution with least weight:");
 			for(int i = 0; i < path3.size(); i++) {
 				System.out.println(path3.get(i));
+				
 			}
-		}
+		}*/
 		
 	}
 
@@ -214,7 +216,7 @@ public class MazeGraph {
 				if(startvert.equals(currentvert)){
 					maze.getVertex(currentvert).addVertexToPath(maze.getVertex(startvert));
 				}
-				currentPath = current.getPath().clone();
+				currentPath = (LinkedList<Vertex<String>>)  current.getPath().clone();
 				currentStringNeighbors = current.getStringNeighbors();
 				currentNeighbors = current.getNeighbors();
 				for(int i = 0; i < currentStringNeighbors.size(); i++){
@@ -223,9 +225,9 @@ public class MazeGraph {
 					if(!visitedlist.contains(neighborString)){
 
 						LinkedList<Vertex<String>> temp = new LinkedList<Vertex<String>> ();
-						temp = currentPath.clone();
-						temp.addToEnd(maze.getVertex(neighborString));
-						maze.getVertex(neighborString).setPath(tempPath);
+						temp = (LinkedList<Vertex<String>>) currentPath.clone();
+						temp.add(maze.getVertex(neighborString));
+						maze.getVertex(neighborString).setPath(temp);
 
 						queue.add(neighborString);
 						visitedlist.add(neighborString);
@@ -261,33 +263,33 @@ public class MazeGraph {
 		vertStack.push(start);//Adding our first vertex to kick this off
 
 		while(!vertStack.isEmpty()){
-			currentvert = vertStack.pop();
+			currentvert = vertStack.poll().getLabel();
 			current = maze.getVertex(currentvert);
 
 			if(startvert.equals(currentvert)){
-				maze.getVertex(currentvert).addVertexToPath(maze.getVertex(startvert))
+				maze.getVertex(currentvert).addVertexToPath(maze.getVertex(startvert));
 			}
-			currentPath = current.getPath().clone();
+			currentPath = (LinkedList<Vertex<String>>) current.getPath().clone();
 
 
 			if(!visitedlist.contains(currentvert)){//only go to unvisted vertexes
-				visitedlist.add(currentvert);
+				visitedlist.add(maze.getVertex(currentvert));
 				if(currentvert.equals(endvert)){
 					return current.getPath();
 				}
 				else{
 					currentStringNeighbors = current.getStringNeighbors();
 					currentNeighbors = current.getNeighbors();
-					for(int i = 0; i < neighborsVertex.get(i); i++){
+					for(int i = 0; i < currentNeighbors.size(); i++){
 						Vertex<String> neighbor = currentNeighbors.get(i);
 						String neighborString = currentStringNeighbors.get(i);
 
 						LinkedList<Vertex<String>> temp = new LinkedList<Vertex<String>> ();
-						temp = currentPath.clone();
-						temp.addToEnd(maze.getVertex(neighborString));
-						maze.getVertex(neighborString).setPath(tempPath);
+						temp = (LinkedList<Vertex<String>>) currentPath.clone();
+						temp.add(maze.getVertex(neighborString));
+						maze.getVertex(neighborString).setPath(temp);
 
-						vertStack.push(neighborString);
+						vertStack.add(neighbor);
 					}
 
 				}
@@ -300,7 +302,7 @@ public class MazeGraph {
 	 * This method should use Dijkstra's algorithm to find the shortest cost path through the 
 	 * maze, then return that path.
 	 ******/
-	
+	/*
 	public static List<Vertex<String>> solveMaze(WeightedGraph<String> maze, String startvert, String endvert) {
 		PriorityQueue<Vertex<String>> minHeap = new PriorityQueue<Vertex<String>>();
 		Vertex<String> start = maze.getVertex(startvert);
@@ -317,7 +319,7 @@ public class MazeGraph {
 				while(!currentNeighbors.isEmpty()){
 					Vertex<String> check = currentNeighbors.poll();
 					check.setDistance(current.getDistance() + maze.getEdgeWeight(current.getLabel(), check.getLabel()));
-					List<Vertex<String>> foo = current.getPath();
+					List<Vertex<String>> foo = current.getPath().clone();
 					foo.add(current); 
 					check.setPath(foo);
 					minHeap.add(check);
@@ -326,4 +328,5 @@ public class MazeGraph {
 		}
 	return null;
 	}
+	*/
 }

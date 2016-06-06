@@ -134,7 +134,7 @@ public class Vertex<T> implements Comparator<Vertex<T>> {
 	/*********************
 	 * Get this vertex's path list
 	 *******************/
-	public List<Vertex<T>> getPath() {
+	public LinkedList<Vertex<T>> getPath() {
 		return this.path;
 	}
 
