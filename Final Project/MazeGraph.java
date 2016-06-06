@@ -36,12 +36,12 @@ public class MazeGraph {
 		}
 
 		if(!weighted) {
-			/*AdjListGraph<String> gmaze = loadMaze(fname);
+			AdjListGraph<String> gmaze = loadMaze(fname);
 			List<Vertex<String>> path1 = solveMazeDepthFirst(gmaze, startvertex, endvertex);
 			System.out.println("Solution using DFS:");
 			for(int i = 0; path1 != null && i < path1.size(); i++) {
 				System.out.println(path1.get(i));
-			} */
+			}
 
 			// reload maze in case the graph needs to be reset
 			AdjListGraph<String> gmaze2 = loadMaze(fname);
@@ -50,16 +50,14 @@ public class MazeGraph {
 			for(int i = 0; path2 != null && i < path2.size(); i++) {
 				System.out.println(path2.get(i).getLabel());
 			}
-		}/*else {
-			
+		} else {
 			WeightedGraph<String> gmaze = loadWeightedMaze(fname);
 			List<Vertex<String>> path3 = solveMaze(gmaze, startvertex, endvertex);
 			System.out.println("Solution with least weight:");
 			for(int i = 0; i < path3.size(); i++) {
 				System.out.println(path3.get(i));
-				
 			}
-		}*/
+		}
 		
 	}
 
@@ -192,51 +190,47 @@ public class MazeGraph {
 		Vertex<String> start = maze.getVertex(startvert);
 		Vertex<String> end = maze.getVertex(endvert);
 		Vertex<String> current = new Vertex<String>(null);
-		String currentvert;
 
-		LinkedList<String> queue = new LinkedList<String>();
-		LinkedList<String> visitedlist = new LinkedList<String>();
-		queue.add(startvert);	//add the starting vertex to the queue
-		visitedlist.add(startvert);
+		LinkedList<Vertex<String>> queue = new LinkedList<Vertex<String>>();
+		LinkedList<Vertex<String>> visitedlist = new LinkedList<Vertex<String>>();
+		queue.add(start);	//add the starting vertex to the queue
 		LinkedList<Vertex<String>> currentNeighbors = new LinkedList<Vertex<String>>();
-		LinkedList<String> currentStringNeighbors = new LinkedList<String>();
-		LinkedList<Vertex<String>> currentPath = new LinkedList<Vertex<String>>();
-
 		while(!queue.isEmpty()){
-			//System.out.println(queue);
-			currentvert = queue.poll();	//get the first vertex from the queue
-			current = maze.getVertex(currentvert);	
+			System.out.println(queue);
+			current = queue.poll();	//get the first vertex from the queue
 				//add the current vertex to the list of visited vertexes
 			//System.out.println(current);
-			//System.out.println(visitedlist);
-			//System.out.println("-----");
-			if (current.equals(endvert)){	//the search is over
+			System.out.println(visitedlist);
+			System.out.println("-----");
+			if (current.equals(end)){	//the search is over
 				return current.getPath();
-			} else{
-				if(startvert.equals(currentvert)){
-					maze.getVertex(currentvert).addVertexToPath(maze.getVertex(startvert));
-				}
-				currentPath = (LinkedList<Vertex<String>>)  current.getPath().clone();
-				currentStringNeighbors = current.getStringNeighbors();
-				currentNeighbors = current.getNeighbors();
-				for(int i = 0; i < currentStringNeighbors.size(); i++){
-					Vertex<String> neighbor = currentNeighbors.get(i);
-					String neighborString = currentStringNeighbors.get(i);
-					if(!visitedlist.contains(neighborString)){
-
-						LinkedList<Vertex<String>> temp = new LinkedList<Vertex<String>> ();
-						temp = (LinkedList<Vertex<String>>) currentPath.clone();
-						temp.add(maze.getVertex(neighborString));
-						maze.getVertex(neighborString).setPath(temp);
-
-						queue.add(neighborString);
-						visitedlist.add(neighborString);
-					}
-				}
-
-
-				
 			}
+			if (!visitedlist.contains(current) && !queue.contains(current)){	//don't look at vertexes that have been looked at already
+				visitedlist.add(current);
+				currentNeighbors.addAll(current.getNeighbors());
+				LinkedList<Vertex<String>> foo = (LinkedList<Vertex<String>>) current.getPath().clone();
+				foo.add(current); 
+				do{
+					Vertex<String> check = currentNeighbors.poll();
+					//System.out.println(check);
+					//System.out.println("-----");
+					//System.out.print(visitedlist.contains(check));
+					//System.out.println("\t");
+					//System.out.println(queue.contains(check));
+					if(!visitedlist.contains(check) && !queue.contains(check) && !current.getPath().contains(check)) {
+						//System.out.print(check.getLabel());
+						//System.out.print("\t");
+						check.setPath(foo);
+						if (check.equals(end)){
+							return check.getPath();
+						}
+						//System.out.println(check.getPath());
+						queue.add(check);
+					}
+					//System.out.println("\n");
+				} while (!currentNeighbors.isEmpty());
+			}
+			
 		}
 	return null;	// if we cannot find the end, then we will return null
 	}
@@ -249,49 +243,27 @@ public class MazeGraph {
 	public static List<Vertex<String>> solveMazeDepthFirst(AdjListGraph<String> maze, String startvert, String endvert) {
 		Vertex<String> start = maze.getVertex(startvert);
 		Vertex<String> end = maze.getVertex(endvert);
-		Vertex<String> current = new Vertex<String>(null);
-		String currentvert;
-
+		Vertex<String> current = start;
 
 		ArrayDeque<Vertex<String>> vertStack = new ArrayDeque<Vertex<String>>();
 		LinkedList<Vertex<String>> visitedlist = new LinkedList<Vertex<String>>();
-		
-		LinkedList<Vertex<String>> currentNeighbors = new LinkedList<Vertex<String>>();
-		LinkedList<String> currentStringNeighbors = new LinkedList<String>();
-		LinkedList<Vertex<String>> currentPath = new LinkedList<Vertex<String>>();
-
 		vertStack.push(start);//Adding our first vertex to kick this off
-
 		while(!vertStack.isEmpty()){
-			currentvert = vertStack.poll().getLabel();
-			current = maze.getVertex(currentvert);
-
-			if(startvert.equals(currentvert)){
-				maze.getVertex(currentvert).addVertexToPath(maze.getVertex(startvert));
-			}
-			currentPath = (LinkedList<Vertex<String>>) current.getPath().clone();
-
-
-			if(!visitedlist.contains(currentvert)){//only go to unvisted vertexes
-				visitedlist.add(maze.getVertex(currentvert));
-				if(currentvert.equals(endvert)){
+			current = vertStack.pop();
+			if(!visitedlist.contains(current)){//only go to unvisted vertexes
+				visitedlist.add(current);
+				if(current.getLabel().equals(end)){
 					return current.getPath();
 				}
 				else{
-					currentStringNeighbors = current.getStringNeighbors();
-					currentNeighbors = current.getNeighbors();
-					for(int i = 0; i < currentNeighbors.size(); i++){
-						Vertex<String> neighbor = currentNeighbors.get(i);
-						String neighborString = currentStringNeighbors.get(i);
-
-						LinkedList<Vertex<String>> temp = new LinkedList<Vertex<String>> ();
-						temp = (LinkedList<Vertex<String>>) currentPath.clone();
-						temp.add(maze.getVertex(neighborString));
-						maze.getVertex(neighborString).setPath(temp);
-
-						vertStack.add(neighbor);
+					LinkedList<Vertex<String>> currentNeighbors = current.getNeighbors();
+					LinkedList<Vertex<String>> foo = (LinkedList<Vertex<String>>) current.getPath().clone();
+					foo.add(current); 
+					while(!currentNeighbors.isEmpty()){
+						Vertex<String> check = currentNeighbors.poll();
+						check.setPath(foo);
+						vertStack.push(check);
 					}
-
 				}
 			}
 
@@ -302,7 +274,7 @@ public class MazeGraph {
 	 * This method should use Dijkstra's algorithm to find the shortest cost path through the 
 	 * maze, then return that path.
 	 ******/
-	/*
+	
 	public static List<Vertex<String>> solveMaze(WeightedGraph<String> maze, String startvert, String endvert) {
 		PriorityQueue<Vertex<String>> minHeap = new PriorityQueue<Vertex<String>>();
 		Vertex<String> start = maze.getVertex(startvert);
@@ -316,11 +288,11 @@ public class MazeGraph {
 			}
 			else{
 				LinkedList<Vertex<String>> currentNeighbors = current.getNeighbors();
+				LinkedList<Vertex<String>> foo = (LinkedList<Vertex<String>>) current.getPath().clone();
+				foo.add(current); 
 				while(!currentNeighbors.isEmpty()){
 					Vertex<String> check = currentNeighbors.poll();
 					check.setDistance(current.getDistance() + maze.getEdgeWeight(current.getLabel(), check.getLabel()));
-					List<Vertex<String>> foo = current.getPath().clone();
-					foo.add(current); 
 					check.setPath(foo);
 					minHeap.add(check);
 				} 
@@ -328,5 +300,4 @@ public class MazeGraph {
 		}
 	return null;
 	}
-	*/
 }
