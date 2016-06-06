@@ -1,6 +1,11 @@
 import java.util.Random;
 import java.io.*;
 
+/********************************* 
+* Final Project 6/6/16
+* Andrew Maris and Quinn Schiller
+***********************************/
+
 /**************************************
  * Maze class - A class to generate random mazes.
  *

@@ -1,6 +1,12 @@
 import java.util.*;
 
+/********************************* 
+* Final Project 6/6/16
+* Andrew Maris and Quinn Schiller
+***********************************/
+
 public class WeightedGraph<T> implements WeightedGraphADT<T>{
+
 
 	HashMap<T, Vertex<T>> vertexes = new HashMap<T, Vertex<T>>();
 	int edges = 0;

@@ -2,6 +2,11 @@ import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+/********************************* 
+* Final Project 6/6/16
+* Andrew Maris and Quinn Schiller
+***********************************/
+
 /*****************
  * This class reads in a maze (as created by Maze.java)
  * as a graph, then solves it, then prints out its solution
@@ -15,6 +20,7 @@ import java.io.FileNotFoundException;
  */
 public class MazeGraph {
 
+	//reads user's input
 	public static void main(String[] args) {
 		String fname = null;
 		String startvertex = null;
@@ -186,7 +192,7 @@ public class MazeGraph {
 	 ******/
 	public static List<Vertex<String>> solveMazeBreadthFirst(AdjListGraph<String> maze, String startvert, String endvert) {
 		// Use a breadth-first search to find a path through the maze
-		Vertex<String> start = maze.getVertex(startvert);
+		Vertex<String> start = maze.getVertex(startvert);  // creates vertexes and lists to be used later
 		Vertex<String> end = maze.getVertex(endvert);
 		Vertex<String> current = new Vertex<String>(null);
 
@@ -225,7 +231,7 @@ public class MazeGraph {
 	 ******/
 	
 	public static List<Vertex<String>> solveMazeDepthFirst(AdjListGraph<String> maze, String startvert, String endvert) {
-		Vertex<String> start = maze.getVertex(startvert);
+		Vertex<String> start = maze.getVertex(startvert); // creates vertexes, a queue and a list to be used later
 		Vertex<String> end = maze.getVertex(endvert);
 		Vertex<String> current = start;
 		ArrayDeque<Vertex<String>> vertStack = new ArrayDeque<Vertex<String>>();
@@ -262,7 +268,7 @@ public class MazeGraph {
 	 ******/
 	public static List<Vertex<String>> solveMaze(WeightedGraph<String> maze, String startvert, String endvert) {
 		//our vertex extends comparable so we don't need to give it a comparator
-		PriorityQueue<Vertex<String>> minHeap = new PriorityQueue<Vertex<String>>();	
+		PriorityQueue<Vertex<String>> minHeap = new PriorityQueue<Vertex<String>>();	 // creates vertexes and a min heap to be used later
 		Vertex<String> start = maze.getVertex(startvert);
 		Vertex<String> end = maze.getVertex(endvert);
 		Vertex<String> current = start;
