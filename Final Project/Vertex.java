@@ -14,7 +14,7 @@ public class Vertex<T> implements Comparator<Vertex<T>> {
 	 * Label and neighborList are integral to what a vertex holds
 	 ***/
 	private T label;
-	private List<Vertex<T>> neighborList;
+	private LinkedList<Vertex<T>> neighborList;
 
 	//hold the distance to each neighbor
 	private HashMap<Vertex<T>, Double> weights = new HashMap<Vertex<T>, Double>();
@@ -26,15 +26,15 @@ public class Vertex<T> implements Comparator<Vertex<T>> {
 	 * automatically set to anything specific
 	 ********/
 	private double distance;
-	private List<Vertex<T>> path;
+	private LinkedList<Vertex<T>> path;
 
 	/****************
 	 * Constructor for Vertex class, pass it the label
 	 ************/
 	public Vertex(T lb) {
 		this.label = lb;
-		this.path = new ArrayList<Vertex<T>>();
-		this.neighborList = new ArrayList<Vertex<T>>();
+		this.path = new LinkedList<Vertex<T>>();
+		this.neighborList = new LinkedList<Vertex<T>>();
 		this.distance = Double.POSITIVE_INFINITY;
 	}
 
@@ -43,8 +43,8 @@ public class Vertex<T> implements Comparator<Vertex<T>> {
 	 ************/
 	public Vertex(T lb, int dist) {
 		this.label = lb;
-		this.path = new ArrayList<Vertex<T>>();
-		this.neighborList = new ArrayList<Vertex<T>>();
+		this.path = new LinkedList<Vertex<T>>();
+		this.neighborList = new LinkedList<Vertex<T>>();
 		this.distance = (double) dist;
 	}
 
@@ -71,11 +71,13 @@ public class Vertex<T> implements Comparator<Vertex<T>> {
 		return foo;
 	}
 
+
+
 	public LinkedList<String> getStringNeighbors() {
 		LinkedList<String> foo = new LinkedList<String>();
 		int count = neighborList.size();
 		for(int i = 0; i < count; i++){
-			foo.add(neighborList.get(i).getLabel());
+			foo.add(neighborList.get(i).getLabel().toString());
 		}
 		return foo;
 	}
@@ -139,7 +141,7 @@ public class Vertex<T> implements Comparator<Vertex<T>> {
 	/************************
 	 * Set this vertex's path list
 	 ***********************/
-	public void setPath(List<Vertex<T>> p) {
+	public void setPath(LinkedList<Vertex<T>> p) {
 		this.path = p;
 	}
 
