@@ -214,7 +214,7 @@ public class MazeGraph {
 				if(startvert.equals(currentvert)){
 					maze.getVertex(currentvert).addVertexToPath(maze.getVertex(startvert));
 				}
-				currentPath.copy(current.getPath());
+				currentPath = current.getPath().clone();
 				currentStringNeighbors = current.getStringNeighbors();
 				currentNeighbors = current.getNeighbors();
 				for(int i = 0; i < currentStringNeighbors.size(); i++){
@@ -223,9 +223,9 @@ public class MazeGraph {
 					if(!visitedlist.contains(neighborString)){
 
 						LinkedList<Vertex<String>> temp = new LinkedList<Vertex<String>> ();
-						temp.copy(currentPath);
+						temp = currentPath.clone();
 						temp.addToEnd(maze.getVertex(neighborString));
-						maze.getVertex(neighborString);
+						maze.getVertex(neighborString).setPath(tempPath);
 
 						queue.add(neighborString);
 						visitedlist.add(neighborString);
@@ -267,23 +267,29 @@ public class MazeGraph {
 			if(startvert.equals(currentvert)){
 				maze.getVertex(currentvert).addVertexToPath(maze.getVertex(startvert))
 			}
-			currentPath.copy(currentNeighbors.getPath());
+			currentPath = current.getPath().clone();
 
 
-			if(!visitedlist.contains(current)){//only go to unvisted vertexes
-				visitedlist.add(current);
-				if(current.getLabel().equals(end)){
+			if(!visitedlist.contains(currentvert)){//only go to unvisted vertexes
+				visitedlist.add(currentvert);
+				if(currentvert.equals(endvert)){
 					return current.getPath();
 				}
 				else{
-					LinkedList<Vertex<String>> currentNeighbors = current.getNeighbors();
-					while(!currentNeighbors.isEmpty()){
-						Vertex<String> check = currentNeighbors.poll();
-						List<Vertex<String>> foo = current.getPath();
-						foo.add(current); 
-						check.setPath(foo);
-						vertStack.push(check);
+					currentStringNeighbors = current.getStringNeighbors();
+					currentNeighbors = current.getNeighbors();
+					for(int i = 0; i < neighborsVertex.get(i); i++){
+						Vertex<String> neighbor = currentNeighbors.get(i);
+						String neighborString = currentStringNeighbors.get(i);
+
+						LinkedList<Vertex<String>> temp = new LinkedList<Vertex<String>> ();
+						temp = currentPath.clone();
+						temp.addToEnd(maze.getVertex(neighborString));
+						maze.getVertex(neighborString).setPath(tempPath);
+
+						vertStack.push(neighborString);
 					}
+
 				}
 			}
 
