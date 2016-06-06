@@ -8,7 +8,7 @@ import java.util.*;
  **********************/
 
 //adding the implements comparator section allows us to use the priority queue
-public class Vertex<T> implements Comparator<Vertex<T>> {
+public class Vertex<T> implements Comparable<Vertex<T>> {
 
 	/****
 	 * Label and neighborList are integral to what a vertex holds
@@ -120,6 +120,9 @@ public class Vertex<T> implements Comparator<Vertex<T>> {
 		return this.distance;
 	}
 
+	/****************
+	 * Get this vertex's weight
+	 *****************/
 	public double getWeight(Vertex<T> end) {
 		return this.weights.get(end);
 	}
@@ -145,25 +148,26 @@ public class Vertex<T> implements Comparator<Vertex<T>> {
 		this.path = p;
 	}
 
-	//yeah that works
+	/*****************
+	 * Allows us to see if two vertexes are the same
+	 *****************/
 	public boolean equals(Object ob) {
 		if(!(ob instanceof Vertex)) { return false; }
 		return this.label.equals(((Vertex<T>)ob).getLabel());
 	}
 
-	//allows us to use priority queue
+	/****************
+	 * Which vertex has the longer distance
+	 *****************/
 	public int compareTo(Vertex<T> vert){
 		return (int) (this.getDistance() - (vert.getDistance()));
 	}
 
-	// Overriding the compare method
+	/****************
+	 * Which vertex has the longer distance
+	 *****************/
 	public int compare(Vertex<T> v1, Vertex<T> v2){
 		return (int) (v1.getDistance() -(v2.getDistance()));
 	}
-
-	public void addVertexToPath(Vertex<T> vert){
-		this.neighborList.add(vert);
-	}
-
 
 }
