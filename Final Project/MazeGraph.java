@@ -247,13 +247,29 @@ public class MazeGraph {
 	public static List<Vertex<String>> solveMazeDepthFirst(AdjListGraph<String> maze, String startvert, String endvert) {
 		Vertex<String> start = maze.getVertex(startvert);
 		Vertex<String> end = maze.getVertex(endvert);
-		Vertex<String> current = start;
+		Vertex<String> current = new Vertex<String>(null);
+		String currentvert;
+
 
 		ArrayDeque<Vertex<String>> vertStack = new ArrayDeque<Vertex<String>>();
 		LinkedList<Vertex<String>> visitedlist = new LinkedList<Vertex<String>>();
+		
+		LinkedList<Vertex<String>> currentNeighbors = new LinkedList<Vertex<String>>();
+		LinkedList<String> currentStringNeighbors = new LinkedList<String>();
+		LinkedList<Vertex<String>> currentPath = new LinkedList<Vertex<String>>();
+
 		vertStack.push(start);//Adding our first vertex to kick this off
+
 		while(!vertStack.isEmpty()){
-			current = vertStack.pop();
+			currentvert = vertStack.pop();
+			current = maze.getVertex(currentvert);
+
+			if(startvert.equals(currentvert)){
+				maze.getVertex(currentvert).addVertexToPath(maze.getVertex(startvert))
+			}
+			currentPath.copy(currentNeighbors.getPath());
+
+
 			if(!visitedlist.contains(current)){//only go to unvisted vertexes
 				visitedlist.add(current);
 				if(current.getLabel().equals(end)){
