@@ -71,6 +71,15 @@ public class Vertex<T> implements Comparator<Vertex<T>> {
 		return foo;
 	}
 
+	public LinkedList<String> getStringNeighbors() {
+		LinkedList<String> foo = new LinkedList<String>();
+		int count = neighborList.size();
+		for(int i = 0; i < count; i++){
+			foo.add(neighborList.get(i).getLabel());
+		}
+		return foo;
+	}
+
 	
 	/********************
 	 * Add a neighbor to the vertex (no weight specified)
@@ -148,6 +157,10 @@ public class Vertex<T> implements Comparator<Vertex<T>> {
 	// Overriding the compare method
 	public int compare(Vertex<T> v1, Vertex<T> v2){
 		return (int) (v1.getDistance() -(v2.getDistance()));
+	}
+
+	public void addVertexToPath(Vertex<T> vert){
+		this.neighborList.add(vert);
 	}
 
 

@@ -36,12 +36,12 @@ public class MazeGraph {
 		}
 
 		if(!weighted) {
-			AdjListGraph<String> gmaze = loadMaze(fname);
+			/*AdjListGraph<String> gmaze = loadMaze(fname);
 			List<Vertex<String>> path1 = solveMazeDepthFirst(gmaze, startvertex, endvertex);
 			System.out.println("Solution using DFS:");
 			for(int i = 0; path1 != null && i < path1.size(); i++) {
 				System.out.println(path1.get(i));
-			}
+			} */
 
 			// reload maze in case the graph needs to be reset
 			AdjListGraph<String> gmaze2 = loadMaze(fname);
@@ -190,47 +190,51 @@ public class MazeGraph {
 		Vertex<String> start = maze.getVertex(startvert);
 		Vertex<String> end = maze.getVertex(endvert);
 		Vertex<String> current = new Vertex<String>(null);
+		String currentvert;
 
-		LinkedList<Vertex<String>> queue = new LinkedList<Vertex<String>>();
-		LinkedList<Vertex<String>> visitedlist = new LinkedList<Vertex<String>>();
-		queue.add(start);	//add the starting vertex to the queue
+		LinkedList<String> queue = new LinkedList<String>();
+		LinkedList<String> visitedlist = new LinkedList<String>();
+		queue.add(startvert);	//add the starting vertex to the queue
+		visitedlist.add(startvert);
 		LinkedList<Vertex<String>> currentNeighbors = new LinkedList<Vertex<String>>();
+		LinkedList<String> currentStringNeighbors = new LinkedList<String>();
+		LinkedList<Vertex<String>> currentPath = new LinkedList<Vertex<String>>();
+
 		while(!queue.isEmpty()){
-			System.out.println(queue);
-			current = queue.poll();	//get the first vertex from the queue
+			//System.out.println(queue);
+			currentvert = queue.poll();	//get the first vertex from the queue
+			current = maze.getVertex(currentvert);	
 				//add the current vertex to the list of visited vertexes
 			//System.out.println(current);
-			System.out.println(visitedlist);
-			System.out.println("-----");
-			if (current.equals(end)){	//the search is over
+			//System.out.println(visitedlist);
+			//System.out.println("-----");
+			if (current.equals(endvert)){	//the search is over
 				return current.getPath();
-			}
-			if (!visitedlist.contains(current) && !queue.contains(current)){	//don't look at vertexes that have been looked at already
-				visitedlist.add(current);
-				currentNeighbors.addAll(current.getNeighbors());
-				List<Vertex<String>> foo = current.getPath();
-				foo.add(current); 
-				do{
-					Vertex<String> check = currentNeighbors.poll();
-					//System.out.println(check);
-					//System.out.println("-----");
-					//System.out.print(visitedlist.contains(check));
-					//System.out.println("\t");
-					//System.out.println(queue.contains(check));
-					if(!visitedlist.contains(check) && !queue.contains(check) && !current.getPath().contains(check)) {
-						//System.out.print(check.getLabel());
-						//System.out.print("\t");
-						check.setPath(foo);
-						if (check.equals(end)){
-							return check.getPath();
-						}
-						//System.out.println(check.getPath());
-						queue.add(check);
+			} else{
+				if(startvert.equals(currentvert)){
+					maze.getVertex(currentvert).addVertexToPath(maze.getVertex(startvert));
+				}
+				currentPath.copy(current.getPath());
+				currentStringNeighbors = current.getStringNeighbors();
+				currentNeighbors = current.getNeighbors();
+				for(int i = 0; i < currentStringNeighbors.size(); i++){
+					Vertex<String> neighbor = currentNeighbors.get(i);
+					String neighborString = currentStringNeighbors.get(i);
+					if(!visitedlist.contains(neighborString)){
+
+						LinkedList<Vertex<String>> temp = new LinkedList<Vertex<String>> ();
+						temp.copy(currentPath);
+						temp.addToEnd(maze.getVertex(neighborString));
+						maze.getVertex(neighborString);
+
+						queue.add(neighborString);
+						visitedlist.add(neighborString);
 					}
-					//System.out.println("\n");
-				} while (!currentNeighbors.isEmpty());
+				}
+
+
+				
 			}
-			
 		}
 	return null;	// if we cannot find the end, then we will return null
 	}
